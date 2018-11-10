@@ -73,10 +73,55 @@ unitsummary=function(GUTdir,tier=2, response="HSI", transition=T){ #I need to ad
 
 #unitsummary(GUTdir, tier=2, response="HSI", 
 #unitsummary(GUTdir, tier=2, response="NREI"
-#unitsummary(GUTdir, tier=2, response="HSI"
+#unitsummary(GUTdir, tier=3, response="HSI"
 #unitsummary(GUTdir, tier=3, response="NREI"
 
+densitybfsummary=function(mydata){
+  mydata=mydata%>% 
+    group_by(Unit)%>%
+    summarize(avg=mean(Densitybf, na.rm=T) 
+              , sd=sd(Densitybf, na.rm=T)
+              , median=median(Densitybf, na.rm=T)
+              , max=max(Densitybf, na.rm=T)
+              , min=min(Densitybf, na.rm=T)
+              , n=length(na.omit(Densitybf)))
+  return(mydata)
+}
+densityhabsummary=function(mydata){
+  mydata=mydata%>% 
+    group_by(Unit)%>%
+    summarize(avg=mean(Densityhab, na.rm=T) 
+              , sd=sd(Densityhab, na.rm=T)
+              , median=median(Densityhab, na.rm=T)
+              , max=max(Densityhab, na.rm=T)
+              , min=min(Densityhab, na.rm=T)
+              , n=length(na.omit(Densityhab)))
+  return(mydata)
+}
+percAreasummary=function(mydata){
+  mydata=mydata%>% 
+    group_by(Unit)%>%
+    summarize(avg=mean(percArea, na.rm=T) 
+              , sd=sd(percArea, na.rm=T)
+              , median=median(percArea, na.rm=T)
+              , max=max(percArea, na.rm=T)
+              , min=min(percArea, na.rm=T)
+              , n=length(na.omit(percArea)))
+  return(mydata)
+}
 
+
+percHabsummary=function(mydata){
+  mydata=mydata%>% 
+    group_by(Unit)%>%
+    summarize(avg=mean(percHab, na.rm=T) 
+              , sd=sd(percHab, na.rm=T)
+              , median=median(percHab, na.rm=T)
+              , max=max(percHab, na.rm=T)
+              , min=min(percHab, na.rm=T)
+              , n=length(na.omit(percHab)))
+  return(mydata)
+}
 
 
 
