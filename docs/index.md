@@ -1,8 +1,6 @@
 ---
-title: Geomorphic Unit Tool
+title: Geomorphic Upscale
 ---
-
-[![GUTLogo]({{site.baseurl}}/assets/images/GUTLogo.png)]({{site.baseurl}}/assets/images/hr/GUTLogo.png)
 
 ## About
 
@@ -10,11 +8,11 @@ Welcome to Geomorphic Upscale. This site provides documentation for how to upsca
 
 The basic process is:
 
-1. [Familiarize] yourself with the base dataset to make sure that they stream characteristics are similar to the network you are trying to upscale. ({{ site.baseurl }}/1.Background) 
-2. [Select] similar sites based on River Style geoindicators ({{ site.baseurl }}/2.Selecting)
-3. [Review] selections. ({{ site.baseurl }}/3.Viewing)
-4. [Estimate] geomorphic assemblages and responses by geomorphic unit ({{ site.baseurl }}/4.Estimating)
-5. [Upscale] estimates to the network based on River Style and Condition. ({{ site.baseurl }}/3.GUTAlgorithms/index)
+1. [Familiarize]({{ site.baseurl }}/1.Background)  yourself with the base dataset to make sure that they stream characteristics are similar to the network you are trying to upscale. 
+2. [Select]({{ site.baseurl }}/2.Selecting) similar sites based on River Style geoindicators
+3. [Review]({{ site.baseurl }}/3.Viewing) selections. 
+4. [Estimate]({{ site.baseurl }}/4.Estimating) geomorphic assemblages and responses by geomorphic unit 
+5. [Upscale]({{ site.baseurl }}/3.GUTAlgorithms/index) estimates to the network based on River Style and Condition. ({{ site.baseurl }}/3.GUTAlgorithms/index)
 
 *The website is still under construction but will be fully populated shortly.  In the meantime, if you have questions or want to run the code, please contact Natalie Kramer (n.kramer.anderson@gmail.com).*
 
