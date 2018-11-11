@@ -70,7 +70,6 @@ unitsummary=function(GUTdir,tier=2, response="HSI", transition=T){ #I need to ad
   
  
 #list.files(GUTdir)
-
 #unitsummary(GUTdir, tier=2, response="HSI", 
 #unitsummary(GUTdir, tier=2, response="NREI"
 #unitsummary(GUTdir, tier=3, response="HSI"
@@ -87,6 +86,7 @@ densitybfsummary=function(mydata){
               , n=length(na.omit(Densitybf)))
   return(mydata)
 }
+
 densityhabsummary=function(mydata){
   mydata=mydata%>% 
     group_by(Unit)%>%
@@ -122,6 +122,44 @@ percHabsummary=function(mydata){
               , n=length(na.omit(percHab)))
   return(mydata)
 }
+
+
+####Extra Code I might need to do something with
+
+#Estimated Density by Unit
+#riverdata$visit=as.numeric(riverdata$VisitID)
+#fishdata$visit=as.numeric(fishdata$VisitID)
+#visitdata$visit=as.numeric(visitdata$VisitID)
+#champdata$visit=as.numeric(champdata$VisitID)
+
+
+#data=data%>%
+#  full_join(riverdata, by="visit")%>%
+#  full_join(visitdata, by="visit")%>%
+#  #full_join(champdata, by="SiteName")%>%
+#  filter(is.na(Unit)==F)
+
+
+#CB=densitybfsummary(data%>%filter(RS_AsotinAnalogue=="confined valley BD"))
+#CF=densitybfsummary(data%>%filter(RS_AsotinAnalogue=="confined valley FP"))
+#FC=densitybfsummary(data%>%filter(RS_AsotinAnalogue=="fan controlled"))
+#PC=densitybfsummary(data%>%filter(RS_AsotinAnalogue=="planform controlled"))
+#WA=densitybfsummary(data%>%filter(RS_AsotinAnalogue=="wandering"))
+#MD=densitybfsummary(data%>%filter(is.na(RS_AsotinAnalogue)))
+
+#CB$RS="CB"
+#CF$RS="CF"
+#FC$RS="FC"
+#PC$RS="PC"
+#WA$RS="WA"
+#MD$RS="MD"
+
+#densitysum=rbind(CB, CF,FC,PC,WA)
+
+
+#write.csv(densitysum, "E:/Box Sync/ET_AL/Projects/USA/ISEMP/GeomorphicUnits/Analyses/Upscaling/T3DensityGU_HSIsthd_AsotinRSsummary.csv")
+
+
 
 
 
