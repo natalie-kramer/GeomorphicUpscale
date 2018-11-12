@@ -9,24 +9,24 @@ We sample the [existing database]({{ site.baseurl }}/1.Familiarizing) based on g
 The geoindicators that you will be able to select in the database include 11 continuous 5 categorical variables. The categorical variables describe the predominant character of the reach for each of the variables. The continuous variables were chosen for their ease of acquisition as well as for their general geomorphic importance. The file [*Database_reachcharacteristics.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv) housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder contains these data for each stream in the database. 
 
 ### <u>Continuous Variables </u>
--**Gradient** ratio elevation drop over distance 
--**LWfreq** frequency of large wood in #/100m stream length
--**Braid** Braiding Index as total channel length over just the main channel length
--**Sinuousity** Curviness of reach, length of stream divided by straight line distance between start and end of reach.
--**D50**  median grains size in mm
--**Bldr** percentage of stream bed substrate made up of boulders
--**Cbl** percentage of stream bed substrate made up of cobbles
--**Gvl** percentage of stream bed substrate made up of gravel
--**Sndf** percentage of stream bed substrate made up of sand
--**bfw** bankful width in m
--**bfd** bankful depth in m
+- **Gradient** ratio elevation drop over distance 
+- **LWfreq** frequency of large wood in #/100m stream length
+- **Braid** Braiding Index as total channel length over just the main channel length
+- **Sinuousity** Curviness of reach, length of stream divided by straight line distance between start and end of reach.
+- **D50**  median grains size in mm
+- **Bldr** percentage of stream bed substrate made up of boulders
+- **Cbl** percentage of stream bed substrate made up of cobbles
+- **Gvl** percentage of stream bed substrate made up of gravel
+- **Sndf** percentage of stream bed substrate made up of sand
+- **bfw** bankful width in m
+- **bfd** bankful depth in m
 
 ### <u>Categorical Variables</u>
--**Planform** Sinuous; Straight; Meandering; Wandering; Anabranching
--**Bedform**Plane Bed; Pool-Riffle; Step-Pool; Rapid; Cascade
--**Threads** Single; Transitional; Multi
--**Substrate** boulder-cobble-gravel-sand (Different combinations  of all four variables are possible)
--**Confinement** CV;PC; UCV (confined valley, partly confined valley, uconfined valley) 
+- **Planform** Sinuous; Straight; Meandering; Wandering; Anabranching
+- **Bedform**Plane Bed; Pool-Riffle; Step-Pool; Rapid; Cascade
+- **Threads** Single; Transitional; Multi
+- **Substrate** boulder-cobble-gravel-sand (Different combinations  of all four variables are possible)
+- **Confinement** CV;PC; UCV (confined valley, partly confined valley, uconfined valley) 
 
 ## Step 1.
 The first step in the selection process is to define River Styles and Geomorphic Condition for your network of interest.  You will need to characterize bounds of the above indicator variables for each river style.  You do not need to utilize all of the geo-indicator variables, just the ones that you think are most important for your reaches.  You simply use these indicators to help you select a subset of the rivers in the database that are similar in character to each of your defined River Style and Condition (RS-cond).  You will create a definition look up table for each of your RS-cond varients. We provide an example of one such lookup table as [*AsotinReachSelectionCriteria.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/ExampleData/AsotinReachSelectionCriteria.csv) in the [Example Data](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/ExampleData) folder. 
