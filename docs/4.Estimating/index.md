@@ -4,14 +4,14 @@ title: Estimating
 
 Go back to [home]({{ site.baseurl }})
 
-#Estimate
+# Estimate
 
 The next step is to empirically estimate geomorphic assemblages and modelling responses for each River Style and Condition variants in your network.
 
-##Under Construction!!!
+# Under Construction!!!
 
 
-##What's next?
+## What's next?
 Once you have acquired your estimates you are now ready to [upscale]({{ site.baseurl }}\5.Upscaling) your results to the  network. 
 
 Go back to [home]({{ site.baseurl }})
