@@ -3,7 +3,7 @@
 #that match geomorphically to specified geomorphic indicator characteristics. 
 
 #Natalie Kramer (n.kramer.anderson@gmail.com)
-#Last Updated Oct 25, 2018
+#Last Updated Nov 16, 2018
 
 
 
@@ -24,7 +24,7 @@ OUTdir='E:\\GitHub\\GeomorphicUpscale\\ExampleData'
 
 
 #reads in database of reach variables.
-data1=read.csv("E://GitHub//GeomorphicUpscale//ExampleData//Database_reachcharacteristics.csv")
+data1=read.csv("E://GitHub//GeomorphicUpscale//Database//Database_reachcharacteristics.csv")
 
 
 
@@ -47,7 +47,7 @@ criteria=read.csv("E://GitHub//GeomorphicUpscale//ExampleData//AsotinReachSelect
 ###########################################################
 #Dependencies
 ###########################################################
-load('E:\\GitHub\\GeomorphicUpscale\\UnitSummary.R') #isn't reading in correctly?
+#load('E:\\GitHub\\GeomorphicUpscale\\UnitSummary.R') #isn't reading in correctly?
 library(dplyr)
 
 
@@ -483,6 +483,7 @@ CVintact
 selections=rbind(FCpoor,FCmod, FCgood, FCintact,
                  AFpoor,AFmod, AFgood, AFintact,
                  PCpoor,PCmod, PCgood, PCintact,
+                 WApoor, WAmod, WAgood,WAintact,
                  CVpoor, CVmod, CVgood, CVintact)
 
 write.csv(selections, paste(OUTdir, "\\Asotinselections.csv", sep=""))
