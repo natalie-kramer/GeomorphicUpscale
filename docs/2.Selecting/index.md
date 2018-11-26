@@ -34,7 +34,7 @@ For the Asotin example, we created a definition look up table for each River Sty
 
 In this table we provide as separate columns the upper and lower limits for several (but not all) of the continuous variables and provide lists of all possible categorical descriptors separated by a semicolon.  For example, in the Asotin, Poor Condition Fan Controlled reaches are almost all characterized by Plane Bed whereas Moderate Condition Fan Controlled reaches could be Plane bed OR Pool-Riffle (Plane Bed; Pool-Riffle). A prettier, more easily readable version of this table is below  to give you the gist.  
 
-![alt text](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/lookuptable.PNG "Example Definitions")
+![](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/lookuptable.PNG)
 
 It is important to recognize that you could have a River Style for a reach that is wandering, but the actual reach planform is something else, like straight.  This is because River Style usually takes a slightly broader view of the landscape around the reach, characterizing what the character of the planform should be if it was in good condition.  A disconnect between the River Style name and the geo-indicator planforms (or other characteristic) most often occur in reaches that are in poor or moderate condition.  
 
