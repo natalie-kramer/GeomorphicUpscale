@@ -19,27 +19,23 @@ Substrate,[List] Possible predominant substrate type (Sand; Gravel; Cobble; Boul
 Confinement,"[character] logical epression for type of confinement (Confined, Partly Confined, Unconfined) Using IS or NOT after Brierly and Fryirs ()",,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
 Basin,RiverStyle,RS,Condition,Grad_L,Grad_U,Sin_L,Sin_U,LW_L,LW_U,Braid_L,Braid_U,C,Threads,Bedform,Substrate,Confinement
-Asotin,Fan Controlled,FC,Poor,1,3.5,0,1.1,0,10,1.0,1,1,Single,Plane Bed,Sand; Gravel; Cobble,NOT Unconfined
-Asotin,Fan Controlled,FC,Moderate,1,3.5,0,1.1,0,20,1.0,1,1,Single,Plane Bed; Pool-Riffle,Sand; Gravel; Cobble,NOT Unconfined
-Asotin,Fan Controlled,FC,Good,1,3.5,1.1,1.5,0,40,1.0,1.1,1.05,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Sand; Gravel; Cobble,NOT Unconfined
-Asotin,Fan Controlled,FC,Intact,1,3.5,1.1,1.5,0.4,NA,1.0,1.2,1.1,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Sand; Gravel; Cobble,NOT Unconfined
-Asotin,Alluvial Fan,AF,Poor,0,3,0,1.2,0,10,1.0,1,1,Single,Plane Bed,Sand; Gravel; Cobble,IS Unconfined
-Asotin,Alluvial Fan,AF,Moderate,0,3,0,1.2,0,20,1.0,5,2,Single; Transitional,Plane Bed,Sand; Gravel; Cobble,IS Unconfined
-Asotin,Alluvial Fan,AF,Good,0,3,1.2,1.5,20,40,1.0,5,3,Single; Transitional; Multi,"Plane Bed, Pool-Riffle",Sand; Gravel; Cobble,IS Unconfined
-Asotin,Alluvial Fan,AF,Intact,0,3,1.2,1.5,40,NA,1.0,5,4,Single; Transitional; Multi,"Plane Bed, Pool-Riffle",Sand; Gravel; Cobble,IS Unconfined
-Asotin,Planform Controlled,PC,Poor,0,2.5,0,1.1,0,10,1.0,1,1,Single ,Plane Bed,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Planform Controlled,PC,Moderate,0,2.5,1.1,1.5,0,20,1.0,1.2,1.1,Single; Transitional,Plane Bed; Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Planform Controlled,PC,Good,0,2.5,1.2,1.5,20,40,1.2,1.5,1.4,Single; Transitional,Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Planform Controlled,PC,Intact,0,2.5,1.2,1.5,40,NA,1.2,2,1.6,Transitional; Multi,Pool-Riffle; Step-Pool,Gravel; Cobble; Boulder,
-Asotin,Wandering gravel bed,WA,Poor,0,2,0,1.2,0,10,1.0,1,1,Single,Plane Bed,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Wandering gravel bed,WA,Moderate,0,2,1.2,1.3,0,20,1.0,1.5,1.3,Single; Transitional,Plane-Bed; Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Wandering gravel bed,WA,Good,0,2,1.3,1.5,20,40,1.0,15,1.4,Transitional; Multi,Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
-Asotin,Wandering gravel bed,WA,Intact,0,2,1.5,NA,40,NA,1.0,NA,2.5,Multi,"Pool-Riffle, Rapids",Gravel; Cobble; Boulder,NOT Confined
-Asotin,Confined with Floodplain pockets,CF,Poor,2,5,0,1.1,0,10,1.0,1,1,Single,Plane Bed; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
-Asotin,Confined with Floodplain pockets,CF,Moderate,2,5,0,1.1,0,20,1.0,1,1,Single,Plane Bed; Pool-Riffle; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
-Asotin,Confined with Floodplain pockets,CF,Good,2,5,1.1,1.2,20,40,1.0,1.2,1.1,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
-Asotin,Confined with Floodplain pockets,CF,Intact,2,5,1.2,1.3,40,NA,1.0,1.2,1.2,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
-Asotin,Bedrock Confined or Confined Headwater,CB,Poor,2.5,6,0,1.1,0,0,1.0,1,1,Single,Plane Bed; Step-Pool; Rapid; Cascade,Cobble; Boulder; Bedrock,IS Confined
-Asotin,Bedrock Confined or Confined Headwater,CB,Moderate,2.5,6,0,1.1,0,5,1.0,1,1,Single,Plane Bed; Step-Pool; Rapid; Cascade,Cobble; Boulder; Bedrock,IS Confined
-Asotin,Bedrock Confined or Confined Headwater,CB,Good,2.5,6,0,1.2,0,10,1.0,1,1,Single,Plane Bed; Step-Pool; Rapid; Cascade,Cobble; Boulder; Bedrock,IS Confined
-Asotin,Bedrock Confined or Confined Headwater,CB,Intact,2.5,6,0,1.3,0,15,1.0,1,1,Single,Plane Bed; Step-Pool; Rapid; Cascade,Cobble; Boulder; Bedrock,IS Confined
+Asotin,Fan Controlled,FC,Poor,1,3.5,1,1.1,0,30,1,1,1,Single,Plane Bed,Sand; Gravel; Cobble,NOT Unconfined
+Asotin,Fan Controlled,FC,Moderate,1,3.5,1.04,1.3,0,60,1,1,1,Single,Plane Bed; Pool-Riffle,Sand; Gravel; Cobble,NOT Unconfined
+Asotin,Fan Controlled,FC,Good,1,3.5,1.1,1.5,10,NA,1,1.1,1.05,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Sand; Gravel; Cobble,NOT Unconfined
+Asotin,Fan Controlled,FC,Intact,1,3.5,1.1,1.5,40,NA,1,1.2,1.1,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Sand; Gravel; Cobble,NOT Unconfined
+Asotin,Alluvial Fan,AF,Poor,0,3,1,1.2,0,30,1,1,1,Single,Plane Bed,Sand; Gravel; Cobble,IS Unconfined
+Asotin,Alluvial Fan,AF,Moderate,0,3,1,1.3,10,60,1,5,2,Single; Transitional,Plane Bed,Sand; Gravel; Cobble,IS Unconfined
+Asotin,Alluvial Fan,AF,Good,0,3,1.1,1.5,20,NA,1,5,3,Single; Transitional; Multi,"Plane Bed, Pool-Riffle",Sand; Gravel; Cobble,IS Unconfined
+Asotin,Alluvial Fan,AF,Intact,0,3,1.1,1.5,40,NA,1,5,4,Single; Transitional; Multi,"Plane Bed, Pool-Riffle",Sand; Gravel; Cobble,IS Unconfined
+Asotin,Planform Controlled,PC,Poor,0,2.5,1,1.1,0,30,1,1,1,Single ,Plane Bed,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Planform Controlled,PC,Moderate,0,2.5,1.1,1.5,5,60,1,1.2,1.1,Single; Transitional,Plane Bed; Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Planform Controlled,PC,Good,0,2.5,1.1,1.5,10,100,1.2,1.5,1.4,Single; Transitional,Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Planform Controlled,PC,Intact,0,2.5,1.1,1.5,40,NA,1.2,2,1.6,Transitional; Multi,Pool-Riffle; Step-Pool,Gravel; Cobble; Boulder,
+Asotin,Wandering gravel bed,WA,Poor,0,2,1,1.2,0,30,1,1,1,Single,Plane Bed,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Wandering gravel bed,WA,Moderate,0,2,1.2,1.3,1,60,1,1.5,1.3,Single; Transitional,Plane-Bed; Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Wandering gravel bed,WA,Good,0,2,1.1,1.5,20,NA,1,15,1.4,Transitional; Multi,Pool-Riffle,Gravel; Cobble; Boulder,NOT Confined
+Asotin,Wandering gravel bed,WA,Intact,0,2,1.1,NA,40,NA,1,NA,2.5,Multi,"Pool-Riffle, Rapids",Gravel; Cobble; Boulder,NOT Confined
+Asotin,Confined Valley,CV,Poor,2,6,1,1.1,NA,NA,1,1,1,Single,Plane Bed; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
+Asotin,Confined with Floodplain pockets,CV,Moderate,2,6,1,1.1,NA,NA,1,1,1,Single,Pool-Riffle; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
+Asotin,Confined with Floodplain pockets,CV,Good,2,6,1,1.2,NA,NA,1,1.2,1.1,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
+Asotin,Confined with Floodplain pockets,CV,Intact,2,6,1,1.3,NA,NA,1,1.2,1.2,Single; Transitional,Pool-Riffle; Step-Pool; Rapid,Gravel; Cobble; Boulder; Bedrock,IS Confined
