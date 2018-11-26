@@ -3,10 +3,11 @@ title: Selecting
 ---
 
 # Select
+We sample the [existing database]({{ site.baseurl }}/1.Familiarizing) based on geomorphic incicators to predict geomorphic assemblages for reach types defined on the  network of interest. In the example data, the network is mapped by River Styles (RS) and Geomorphic Condition varience as in Brierly and Fryirs (2005).  
 
-We sample the [existing database]({{ site.baseurl }}/1.Familiarizing) based on geomorphic incicators to predict geomorphic assemblages for River Styles defined on the  network of interest.  
-
-The geoindicators that you will be able to select in the database include 11 continuous 5 categorical variables. The categorical variables describe the predominant character of the reach for each of the variables. The continuous variables were chosen for their ease of acquisition as well as for their general geomorphic importance. The file [*Database_reachcharacteristics.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv) housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder contains these data for each stream in the database. 
+## Step 1. Define your Reach Types on your Network
+Categorize your network into similar reach types or process domains and characterize bounds of indicator variables for each reach type.  
+The geoindicators that are available to use are summarized below. The categorical variables describe the predominant character of the reach for each of the variables. The continuous variables were chosen for their ease of acquisition as well as for their general geomorphic importance. The file [*Database_reachcharacteristics.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv) housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder contains these data for each stream in the database. 
 
 ### <u>Continuous Variables </u>
 - **Gradient** ratio elevation drop over distance 
@@ -28,23 +29,32 @@ The geoindicators that you will be able to select in the database include 11 con
 - **Substrate** boulder-cobble-gravel-sand (Different combinations  of all four variables are possible)
 - **Confinement** CV;PC; UCV (confined valley, partly confined valley, uconfined valley) 
 
-## Step 1.
-The first step in the selection process is to define River Styles and Geomorphic Condition for your network of interest.  You will need to characterize bounds of the above indicator variables for each river style.  You do not need to utilize all of the geo-indicator variables, just the ones that you think are most important for your reaches.  You simply use these indicators to help you select a subset of the rivers in the database that are similar in character to each of your defined River Style and Condition (RS-cond).  You will create a definition look up table for each of your RS-cond varients. We provide an example of one such lookup table as [*AsotinReachSelectionCriteria.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/ExampleData/AsotinReachSelectionCriteria.csv) in the [Example Data](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/ExampleData) folder. 
+You use these indicators to help you select a subset of the rivers in the database that are similar in character to each of your defined reach types.  You do not need to utilize all of the geo-indicator variables, just the ones that you think are most important for your reaches. We highly recommend that at the minimum you include gradient, the Bedform categorical variable and either the Braid continuous variable or the Threads categorical variable. The only variable that you MUST inlcude is the average or median braiding index (C) for each reach type and condition. This variable is used as a scalar to to adjust channel area for multi threads. 
+
+For the Asotin example, we created a definition look up table for each River Style and Condition varient. We provide an example of one such lookup table as [*AsotinReachSelectionCriteria.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/ExampleData/AsotinReachSelectionCriteria.csv) in the [Example Data](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/ExampleData) folder. 
 
 In this table we provide as separate columns the upper and lower limits for several (but not all) of the continuous variables and provide lists of all possible categorical descriptors separated by a semicolon.  For example, in the Asotin, Poor Condition Fan Controlled reaches are almost all characterized by Plane Bed whereas Moderate Condition Fan Controlled reaches could be Plane bed OR Pool-Riffle (Plane Bed; Pool-Riffle). A prettier, more easily readable version of this table is below  to give you the gist.  
 
-You can choose what variables to select on for each River Style and Condition, but you MUST supply a column labelled "C" which contains and estimate of the average or median braiding index for the River Style and condition. This variable is used as a scalar to to adjust channel area for multi threads.
+![alt text](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/lookuptable.PNG "Example Definitions")
 
-It is important to recognize that you could have a River Style for a reach that is Wandering, but the actual reach planform is something else like Straight.  This is because River Style usually takes a slightly broader view of the landscape around the reach and because it might be characterizing what the character of the planform should be if it was in good condition.  A disconnect between the River Style name and the geo-indicator planforms (or other characteristic) most often occur in reaches that are in poor or moderate condition.  
+It is important to recognize that you could have a River Style for a reach that is wandering, but the actual reach planform is something else, like straight.  This is because River Style usually takes a slightly broader view of the landscape around the reach, characterizing what the character of the planform should be if it was in good condition.  A disconnect between the River Style name and the geo-indicator planforms (or other characteristic) most often occur in reaches that are in poor or moderate condition.  
 
-## Step 2.
-Once you have your indicators defined for your river styles and conditions you are ready to use the indicator variables to help select empirical subsets for each of your River Style and Condition.  You do this with using a series of logical statements that will subselect reaches from the database that meet your criteria.  The trick is not to be too restrictive so that you end up with a large enough pool of sites to acquire a good empirical estimate, but not so restrictive that you end up with sites that don't look like your defined River Style.  We provide [*RSelection.R*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/scripts/RSselection.R) as a starting point script with the Asotin as an example.
+## Step 2. Select Anologue Reaches from the Database
+Once you have your indicators defined for your reach types and conditions you are ready to use the indicator variables to help select empirical subsets.  You do this with using a series of logical statements that will subselect reaches from the database that meet your criteria.  The trick is not to be too restrictive - so that you end up with a large enough pool of sites to acquire a good empirical estimate; but restrictive enough - so that you don't end up with sites that are not good analogues.  We provide [*RSelection.R*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/scripts/RSselection.R) as a starting point script with the Asotin as an example. 
+
+An alternate way to select reaches is to simply hand select reaches from the database after reviewing their characteristics  [*(Database_reachcharacteristics.csv)*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv) and/or their GUT maps.  All Tier2 and Tier3 GUT maps of the reaches in the databse can be accessed by downloading and unpackaging [*Maps.zip*](E:\GitHub\GeomorphicUpscale\Database\Maps.zip)  housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database)
+
+Whether or not you choose to use the selection script or handpick your selections, you will want to make to make sure that the output from the selection is a *.csv* file that relates visits in the database to each reach type and condition that you have mapped for your network. At the minimum you need only two columns, one specifying your reach typing categories ('RS') and another specifying the Visit ID in the database ('Visit'). In the example data [*Asotinselections.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Exampledata/AsotinSelections.csv), we carry over many database metrics other than 'Visit' and 'RS', but these extra variables are not necessary for moving forward. 
+
+## Step 3. Review and Refine your Selections
+Once you have your lists of selections for each of reach types and conditions, it is useful to view the GUT output maps of to make sure that the reaches chosen are similar in character to your reaches.  To ease the review process, the script    [*MapsbyRSselection.R*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/scripts/MapsbyRSselection.R) will copy maps from databse folders to separate folders in your local directory that correspond to the reach typing categories in your *.csv* file from Step 2.
+
+You will want to throw out any sites within each grouping that don't fit before moving on to estimating geomorphic assemblages. If the selections just seem off as a whole or you would like greater numbers, you will want to go back and revise your initial selection. If the streams from the database just don't seem like good analogues, then be aware that the geomorphic assemblage estimates may not reflect reality for your situation. You may consider just upscaling the reaches where the selections decently the mimic geomorphic character of your reaches. When you are happy with your selection *.csv* file you are ready to move on!
 
 ## What's next?
-Once you have made your [selections]({{ site.baseurl }}/2.Selecting)  and they are saved in your local directory (see example data [*Asotinselections.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/ExampleData/Asotinselections.csv)) You are now ready to [Review]({{ site.baseurl }}/3.Reviewing) and edit your selections.
+Once you are happy with your selections and they are saved in your local directory (see example data [*Asotinselections.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/ExampleData/Asotinselections.csv)) You are now ready to [Estimate]({{ site.baseurl }}/4.Estimating) using your selections output.
 
+## References
 
-
-
-
+Brierley, G.J. and Fryirs, K.A. 2005. Geomorphology and River Management: Applications of the River Styles Framework. Blackwell Publications, Oxford, UK.
 
