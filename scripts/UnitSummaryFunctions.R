@@ -1,7 +1,7 @@
 
 #This script takes the OUtput from GUT and summarizes responses by Unit
 
-#GUTdir="E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Data\\Metrics\\GUTMetrics\\GUT2.1Run01"
+GUTdir="E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Data\\Metrics\\GUTMetrics\\GUT2.1Run01"
 #outdir=GUTdir="E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Analysis\\Upscaling"
 
 unitsummary=function(GUTdir,tier=2, response="HSI", transition=T){ #I need to add capability of summarizing layers with or without transition.

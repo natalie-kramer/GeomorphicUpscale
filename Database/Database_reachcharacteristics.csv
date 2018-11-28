@@ -1,4 +1,4 @@
-,Watershed,SiteName,Visit,Gradient,LWfreq,Braid,Sinuosity,D50,Bldr,Cbl,Gvl,Sndf,bfw,bfd,Planform,Threads,Bedform,Substrate,Confinement,RS_name,Geo_Cond,LONG_DD,LAT_DD
+,Watershed,SiteName,visit,Gradient,LWfreq,Braid,Sinuosity,D50,Bldr,Cbl,Gvl,Sndf,bfw,bfd,Planform,Threads,Bedform,Substrate,Confinement,RS_name,Geo_Cond,LONG_DD,LAT_DD
 1,Asotin,ASW00001-NF-F2 P2,3949,2,29.48,1,1.17,59,8.31,35.47,40.11,10.17,10.29,0.38,Sinuous,Single,Plane-Bed,cobble-gravel,PCV,Wandering Gravel Bed,NA,NA,NA
 2,John Day,CBW05583-007410,3432,7.534,NA,1.09,1.197,152,NA,NA,NA,NA,5.8,NA,Sinuous,Single,Cascade,boulder-cobble,CV,CV-Step Cascade,good,372422,4949001
 3,Tucannon,CBW05583-010495,2262,1,33.78034744,1.06,1.21,70.5,0.84,39.69,50.38,5.13,15.225,0.46,Meandering,Single,Pool-Riffle,cobble-gravel,UCV,PC Low-Mod Sinuosity Wandering Gravel/Cobble Bed,moderate,NA,NA

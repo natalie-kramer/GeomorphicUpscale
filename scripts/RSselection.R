@@ -486,7 +486,7 @@ selections=rbind(FCpoor,FCmod, FCgood, FCintact,
                  WApoor, WAmod, WAgood,WAintact,
                  CVpoor, CVmod, CVgood, CVintact)
 
-write.csv(selections, paste(OUTdir, "\\Asotinselections.csv", sep=""))
+write.csv(selections, paste(OUTdir, "\\Asotinselections.csv", sep=""), row.names=F)
 
 
 

@@ -1,4 +1,4 @@
-X,Watershed,SiteName,Visit,Gradient,LWfreq,Braid,Sinuosity,D50,Bldr,Cbl,Gvl,Sndf,bfw,bfd,Planform,Threads,Bedform,Substrate,Confinement,RS_name,Geo_Cond,LONG_DD,LAT_DD,RS
+X,Watershed,SiteName,visit,Gradient,LWfreq,Braid,Sinuosity,D50,Bldr,Cbl,Gvl,Sndf,bfw,bfd,Planform,Threads,Bedform,Substrate,Confinement,RS_name,Geo_Cond,LONG_DD,LAT_DD,RS
 28,John Day,CBW05583-189938,1164,2,17.05653021,1,1.09,63,5.42,42.43,37.61,4.8,6.12,0.22,Sinuous,Single,Plane-Bed,cobble-gravel,CV,confined valley w/ occasional floodpockets,NA,NA,NA,FCpoor
 31,Upper Grande Ronde,CBW05583-199103,85,3,6.600037715,1,1.05,55,3.29,39.05,37.58,5.83,3.63,0.22,Sinuous,Single,Plane-Bed,cobble-gravel,CV,cv_cobble_bed,moderate,NA,NA,FCpoor
 50,South Fork Salmon,CBW05583-404767,2065,2,23.80672412,1,1.02,134,30.56,32.495,21.705,5.81,14.135,0.55,Straight,Single,Plane-Bed,boulder-cobble-gravel,PCV,pcv_margin_controlled_boulder_bed,good,594981,4991428,FCpoor
