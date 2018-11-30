@@ -21,13 +21,13 @@ There are two functions within assemblage.R: *assemblage()* and *assemblagechart
 
 Example assemblage outputs from the Asotin for Tier 2 Transition and Tier 3 GUT outputs are shown below.
 
-![Tier 2data]({{site.baseurl}}/assets/Tier2_assemblage.PNG)
+![Tier 2data]({{site.baseurl}}/docs/assets/Tier2_assemblage.PNG)
 
-![Tier 2chart]({{site.baseurl}}/assets/Tier3_InChannel_Transition_assemblage.tiff)
+![Tier 2chart]({{site.baseurl}}/docs/assets/Tier3_InChannel_Transition_assemblage.tiff)
 
-![Tier 3data]({{site.baseurl}}/assets/Tier3_assemblage.PNG)
+![Tier 3data]({{site.baseurl}}/docs/assets/Tier3_assemblage.PNG)
 
-![Tier 3chart]({{site.baseurl}}/assets/Tier3_InChannel_assemblage.tiff)
+![Tier 3chart]({{site.baseurl}}/docs/assets/Tier3_InChannel_assemblage.tiff)
 
 ## Step 2: Estimate the Response Variable by Unit 
 Responses in the database available to upscale are fish capacity predictions as well as percent suitable habitat for NREI and HSI models of steelhead salmon.  The fish capacity predictions predict actual individual fish locations summarized as density of fish by geomorphic unit type. Percent suitable habitat is the percent of each geomorphic unit type in which the model showed fish could be present. Please refer to  the [Familiarize page]({{ site.baseurl }}/1.Familiarizing) for further explanation of the response variables. These estimates can be summarized over all selected reaches or pooled by river reach type, reach type and condition. 
