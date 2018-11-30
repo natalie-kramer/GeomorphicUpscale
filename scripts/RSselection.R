@@ -108,7 +108,7 @@ FCpoor=data%>%
         & (LWfreq < 30 | is.na(LWfreq))
         
 )
-FCpoor$RS="FCpoor"
+FCpoor$RScond="FCpoor"
 FCpoor
 
 
@@ -117,7 +117,7 @@ FCpoor
 
 #FCpoorsum=percAreasummary(FCpoor)
 
-#FCpoorsum$RS="FC poor"
+#FCpoorsum$RScond="FC poor"
 #head(FCpoorsum)
 
 # Fan Controlled-mod (FC mod)-----------------------------------------------------
@@ -132,12 +132,12 @@ FCmod=data%>%
          & Confinement!="UCV"  
          & (LWfreq < 60  | is.na(LWfreq))
 )
-FCmod$RS="FCmod"
+FCmod$RScond="FCmod"
 FCmod
 
 #levels(as.factor(as.character(FCmod$Bedform)))
 #FCmodsum=percAreasummary(FCmod)
-#FCmodsum$RS="FC mod"
+#FCmodsum$RScond="FC mod"
 #head(FCmodsum)
 
 # Fan Controlled-good (FC good) -----------------------------------------------------
@@ -151,11 +151,11 @@ FCgood=data%>%
          & Confinement!="UCV" 
         #& (LWfreq > 10 | is.na(LWfreq))
         )
-FCgood$RS="FCgood"
+FCgood$RScond="FCgood"
 FCgood
 
 #FCgoodsum=percAreasummary(FCgood)
-#FCgoodsum$RS="FC good"
+#FCgoodsum$RScond="FC good"
 #head(FCgoodsum)
 
 
@@ -170,7 +170,7 @@ FCintact=data%>%
          & Confinement!="UCV"  
         & (LWfreq > 40  | is.na(LWfreq))
         )
-FCintact$RS="FCintact"
+FCintact$RScond="FCintact"
 FCintact
 
 
@@ -187,13 +187,13 @@ AFpoor=data%>%
         & Confinement!="CV"  
         & (LWfreq < 30 | is.na(LWfreq))
         )
-AFpoor$RS="AFpoor"
+AFpoor$RScond="AFpoor"
 AFpoor
 
 
 #AFpoorsum=percAreasummary(AFpoor)
 
-#AFpoorsum$RS="AF poor"
+#AFpoorsum$RScond="AF poor"
 #head(AFpoorsum)
 
 # Alluvial Fan-mod (AF mod) -----------------------------------------------------
@@ -208,11 +208,11 @@ AFmod=data%>%
     & Confinement!="CV"  
     & ((LWfreq < 60 & LWfreq > 10)| is.na(LWfreq))
   )
-AFmod$RS="AFmod"
+AFmod$RScond="AFmod"
 AFmod
 
 #AFmodsum=percAreasummary(AFmod)
-#AFmodsum$RS="AF mod"
+#AFmodsum$RScond="AF mod"
 #head(AFmodsum)
 
 # Alluvial Fan-good (AF good) -----------------------------------------------------
@@ -227,11 +227,11 @@ AFgood=data%>%
     & Confinement!="CV" 
     & (LWfreq > 20| is.na(LWfreq))
 )
-AFgood$RS="AFgood"
+AFgood$RScond="AFgood"
 AFgood
 
 #AFgoodsum=percAreasummary(AFgood)
-#AFgoodsum$RS="AF good"
+#AFgoodsum$RScond="AF good"
 #head(AFgoodsum)
 
 
@@ -247,7 +247,7 @@ AFintact=data%>%
     & Confinement!="CV" 
     & (LWfreq > 40| is.na(LWfreq))
   )
-AFintact$RS="AFintact"
+AFintact$RScond="AFintact"
 AFintact
 
 
@@ -265,7 +265,7 @@ PCpoor=data%>%
          & Confinement!="CV"
          & (LWfreq<30| is.na(LWfreq))
          )
-PCpoor$RS="PCpoor"
+PCpoor$RScond="PCpoor"
 PCpoor
 
 
@@ -283,11 +283,11 @@ PCmod=data%>%
          & Confinement!="CV" 
          & ((LWfreq>5 & LWfreq<60) | is.na(LWfreq))
          )
-PCmod$RS="PCmod"
+PCmod$RScond="PCmod"
 PCmod
 
 #PCmodsum=percAreasummary(PCmod)
-#PCmodsum$RS="PC mod"
+#PCmodsum$RScond="PC mod"
 #head(PCmodsum)
 
 
@@ -302,11 +302,11 @@ PCgood=data%>%
     & Confinement!="CV"
     &((LWfreq>10 & LWfreq<100) | is.na(LWfreq))
     )
-PCgood$RS="PCgood" 
+PCgood$RScond="PCgood" 
 PCgood
 
 #PCgoodsum=percAreasummary(PCgood)
-#PCgoodsum$RS="PC good" 
+#PCgoodsum$RScond="PC good" 
 #head(PCgoodsum)
 # Planform Controlled-good (PC intact) -----------------------------------------------------
 
@@ -320,7 +320,7 @@ PCintact=data%>%
     & Confinement!="CV"
     &((LWfreq>40) | is.na(LWfreq))
   )
-PCintact$RS="PCintact" 
+PCintact$RScond="PCintact" 
 PCintact
 
 # Wandering-poor (WA poor) -----------------------------------------------------
@@ -336,11 +336,11 @@ WApoor=data%>%
     & (LWfreq < 30 | is.na(LWfreq))
     
   )
-WApoor$RS="WApoor"
+WApoor$RScond="WApoor"
 WApoor
 
 #WApoorsum=percAreasummary(WApoor)
-#WApoorsum$RS="WA poor"
+#WApoorsum$RScond="WA poor"
 #head(WApoorsum)
 
 # Wandering-mod (WA mod) -----------------------------------------------------
@@ -356,11 +356,11 @@ WAmod=data%>%
     & Confinement!="CV" 
     & ((LWfreq < 60 & LWfreq>1) | is.na(LWfreq))
 )
-WAmod$RS="WAmod"
+WAmod$RScond="WAmod"
 WAmod
 
 #WAmodsum=percAreasummary(WAmod)
-#WAmodsum$RS="WA mod"
+#WAmodsum$RScond="WA mod"
 #head(WAmodsum)
 
 
@@ -375,11 +375,11 @@ WAgood=data%>%
     & Confinement!="CV" 
     & ((LWfreq>20) | is.na(LWfreq))
 )
-WAgood$RS="WAgood"
+WAgood$RScond="WAgood"
 WAgood
 
 #WAgoodsum=percAreasummary(WAgood)
-#WAgoodsum$RS="WA good"
+#WAgoodsum$RScond="WA good"
 #head(WAgoodsum)
 # Wandering-intact (WA intact) -----------------------------------------------------
 criteria[16,]
@@ -392,7 +392,7 @@ WAintact=data%>%
     & Confinement!="CV" 
     & ((LWfreq>40) | is.na(LWfreq))
   )
-WAintact$RS="WAintact"
+WAintact$RScond="WAintact"
 WAintact
 
 
@@ -415,7 +415,7 @@ CVpoor=data%>%
     & Sinuosity<1.1
     & Confinement=="CV" 
     )
-CVpoor$RS="CVpoor"
+CVpoor$RScond="CVpoor"
 CVpoor
 
 
@@ -429,7 +429,7 @@ CVmod=data%>%
     &  Bedform!="Plane-Bed" 
     & Sinuosity<1.1 
     & Confinement=="CV" )
-CVmod$RS="CVmod"
+CVmod$RScond="CVmod"
 CVmod
 
 
@@ -445,7 +445,7 @@ CVgood=data%>%
     & Sinuosity<1.2 
     & Confinement=="CV" 
   )
-CVgood$RS="CVgood"
+CVgood$RScond="CVgood"
 CVgood
 
 # Confined Valley-(CV intact) -----------------------------------------------------
@@ -459,7 +459,7 @@ CVintact=data%>%
     & Sinuosity<1.3 
     & Confinement=="CV" 
   )
-CVintact$RS="CVintact"
+CVintact$RScond="CVintact"
 CVintact
 
 
@@ -491,17 +491,17 @@ write.csv(selections, paste(OUTdir, "\\Asotinselections.csv", sep=""), row.names
 
 
 CBgoodsum=percAreasummary(CBgood)
-CBgoodsum$RS="CB good"
+CBgoodsum$RScond="CB good"
 head(CBgoodsum)
 
 PCpoorsum=percAreasummary(PCpoor)
-PCpoorsum$RS="PC poor"
+PCpoorsum$RScond="PC poor"
 head(PCpoorsum)
 
 #CFpoorsum=percAreasummary(CFpoor)
-#CFpoorsum$RS="CF poor"
+#CFpoorsum$RScond="CF poor"
 #head(CFpoorsum)
 
 CFmodsum=percAreasummary(CFmod)
-CFmodsum$RS="CF mod"
+CFmodsum$RScond="CF mod"
 head(CFmodsum)

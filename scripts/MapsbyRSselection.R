@@ -6,7 +6,7 @@
 
 
 #Function
-MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel", RScolname="RS", idcolname="Visit", idcolname2=NA){
+MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel", RScolname="RScond", idcolname="Visit", idcolname2=NA){
   
   RScol=which(colnames(selections)==RScolname)
   idcol=which(colnames(selections)==idcolname)
@@ -78,5 +78,5 @@ MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel"
 #selections=read.csv("E:\\GitHub\\GeomorphicUpscale\\ExampleData\\Asotinselections.csv")
 
 
-#MapsbyRSselection(selections, OUTdir, MAPrepo, layer="Tier2_InChannel_Transition", RScolname="RS" ,idcolname="Visit")
+#MapsbyRSselection(selections, OUTdir, MAPrepo, layer="Tier2_InChannel_Transition", RScolname="RScond" ,idcolname="Visit")
 ##################
