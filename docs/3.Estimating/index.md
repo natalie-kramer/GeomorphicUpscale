@@ -36,9 +36,6 @@ If you would like to upscale a different variable, you need to provide a table s
 
 The script [response.R]() provides several functions.
 
-
-
-
 ## What's next?
 Once you have acquired your estimates and have two .csv tables that look like  [Asotin_Tier3_assemblage_est]({{site.baseurl}}/ExampleData/Asotin_Tier3_assemblage_est)  and [](), you are now ready to [upscale]({{ site.baseurl }}\5.Upscaling) your results to the  river network. 
 
