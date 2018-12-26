@@ -6,7 +6,16 @@
 
 
 #Function
-MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel", RScolname="RScond", idcolname="Visit", idcolname2=NA){
+#MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel", RScolname="RScond", idcolname="Visit", idcolname2=NA){
+ 
+
+ MAPrepo=paste(DATAdir, "\\Maps", sep="")  
+  RScolname="RScond" 
+  idcolname="visit"
+  idcolname2=NA
+
+  INdir=paste(PROJdir, "Inputs", sep="\\")
+  if (file.exists(INdir)==F){dir.create(INdir)}
   
   RScol=which(colnames(selections)==RScolname)
   idcol=which(colnames(selections)==idcolname)
@@ -19,31 +28,66 @@ MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel"
   
   maplist=paste(MAPrepo,list.files(MAPrepo)[grep(layer, list.files(MAPrepo))],sep="\\")#list of files in MAPrepo
   
+  Mapdir=paste(INdir, "Maps", sep="\\")
+  if (file.exists(Mapdir)==F){dir.create(Mapdir)} #Map map output Dir if it doesn't exist already
+  if (file.exists(Mapdir)==T){
+    if (file.exists(paste(Mapdir,layer,sep="\\"))==F){
+      dir.create(paste(Mapdir,layer,sep="\\"))
+    }
+    if (file.exists(paste(Mapdir,layer,sep="\\"))==T){
+      unlink(paste(Mapdir,layer,sep="\\"), recursive=T)
+      dir.create(paste(Mapdir,layer,sep="\\"))
+    }
+  }
+  
   i=1
   for(i in 1:length(RSlist)){
     RS=RSlist[i]
-    RSdir=paste(OUTdir, RS, sep="\\") #create output directory for RS and condition
+    RSdir=paste(Mapdir, layer, RS, sep="\\") #create output directory for RS and condition
     if (file.exists(RSdir)==F){dir.create(RSdir)}  #make folder corresponding to RS and condition if it doesnt exist already
     
     rows=which(selections[,RScol]==RSlist[i]) #vector of rows related to given RS and Condition
     for(i in 1:length(rows)){
       ID=selections[rows[i],idcol] 
-      mapfile=maplist[grep( as.character(ID) , maplist)]
+      mapfile=maplist[grep( paste("_",as.character(ID),"_",sep="") , maplist)]
       if(file.exists(mapfile)){
         file.copy(mapfile, RSdir, overwrite=T)} else {print(paste("map for", ID, "does not exist", sep=" "))
         }
     }
-    
+  }
+  
+  rm(list=c(  "i"     ,     "ID"      ,   "idcol"   ,   "idcolname" , "idcolname2", "INdir" , "Mapdir",    
+ "mapfile" ,   "maplist"  ,  "MAPrepo"  ,  "rows"  ,     "RS"   ,      "RScol"  ,    "RScolname" , "RSdir",      "RSlist"   ) ) 
+  
+ #keepvars=c("criteria", "selections", "PROJdir","plottype", "DATAdir", "makeplot", "network", "layer")
+  #keep=match(x = keepvars, table = ls())
+  #ls()[-keep]
+  #vars
+  
+  #removing intermediate variables
+  #dnrm <- function(vars, envir = .GlobalEnv) { 
+  #  vars <- c(vars, "dnrm") 
+  #  keep <- match(x = vars, table = ls(envir=envir)) 
+  #  if(any(is.na(keep))) { 
+  #    stop(paste("Some of the variables were not found in", 
+  #               environmentName(envir))) 
+  #  } 
+  #  rm(list = ls(envir = envir)[-keep], envir = envir) 
+  #  cat("Removed all but", length(keep), "objects from", 
+  #      environmentName(envir), fill = TRUE) 
+  #} 
+  
+  #dnrm(c("criteria", "DATAdir", "layer", "makeplot", "network", "plottype", "PROJdir", "selections"))
     #In case you need two columns to define the unique mapfile
-    if(is.na(idcolname2)==F){
-      ID2=selections[rows[i],idcol]
-      mapfile=maplist[grep( paste(ID,ID2, sep="_") , maplist)]
-      if (file.exists(mapfile)){
-        file.copy(mapfile, RSdir)} else {print(paste("map for", ID, ID2, "does not exist", sep=" "))
-        }
-    }
-  } 
-}
+    #if(is.na(idcolname2)==F){
+    #  ID2=selections[rows[i],idcol]
+    #  mapfile=maplist[grep( paste(ID,ID2, sep="_") , maplist)]
+    #  if (file.exists(mapfile)){
+     #   file.copy(mapfile, RSdir)} else {print(paste("map for", ID, ID2, "does not exist", sep=" "))
+     #   }
+    #}
+#  } 
+#}
 
 ###################
 #####Variables
@@ -70,13 +114,14 @@ MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel"
 
 ##specify an output directory where the maps will be placed.
 #OUTdir='E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Analyses\\Upscaling\\Maps'
+#OUTdir='E:\\PantherUpscale\\Outputs\\Maps'
 
 ##Specify where the database map directory is
 #MAPrepo="E:\\GitHub\\GeomorphicUpscale\\Database\\Maps"
 
 ##read in selections generated from RSselection.R
 #selections=read.csv("E:\\GitHub\\GeomorphicUpscale\\ExampleData\\Asotinselections.csv")
+#selections=read.csv("E:\\PantherUpscale\\Inputs\\Pantherselections.csv")
 
-
-#MapsbyRSselection(selections, OUTdir, MAPrepo, layer="Tier2_InChannel_Transition", RScolname="RScond" ,idcolname="Visit")
+#MapsbyRSselection(selections, OUTdir, MAPrepo, layer="Tier3_InChannel", RScolname="RScond" ,idcolname="visit")
 ##################
