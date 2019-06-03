@@ -6,25 +6,6 @@
 #Last Updated Dec 7, 2018
 
 
-#Local location of database
-DATAdir="E://GitHub//GeomorphicUpscale//Database"
-#User defined project directories Loation
-PROJdir='E:\\GitHub\\GeomorphicUpscale\\AsotinExampleData'
-criteriafile="E:\\PantherUpscale\\Inputs\\AsotinReachSelectionCriteria.csv"
-
-#Specify location of R Mapping Script
-#CODEdir= paste(PROJdir, "scripts", sep="\\")
-#MapsbyRSselection=paste(CODEdir, "MapsbyRSselection.R", sep="\\")
-
-#reads in user defined criteria
-INdir=paste(PROJdir, "Inputs", sep="\\")
-criteria=read.csv(criteriafile, skip=20) #skip= specifies # header rows to skip at beginning of csv, you may need to change
-head(criteria)
-
-#reads in database of reach variables.
-data1=read.csv(paste(DATAdir, "Database_reachcharacteristics.csv", sep="\\"))
-head(data1)
-
 ###########################################################
 #Dependencies
 ###########################################################
@@ -32,7 +13,24 @@ head(data1)
 library(dplyr)
 
 ###########################################################
-#Selections
+#Define User File Path Directories
+###########################################################
+#Local location of database
+DATAdir="...//GeomorphicUpscale//Database"
+
+#User defined project directories Loation
+PROJdir='Your\\project\\filepath'
+
+###########################################################
+#Reads in specified data and defines script locations
+###########################################################
+#reads in database of reach variables.
+data=read.csv(paste(DATAdir, "Database_reachcharacteristics.csv", sep="\\"))
+head(data1)
+
+
+###########################################################
+#Select River Styles empirical subsets using geoindicators
 ###########################################################
 #selections for each river style and type.  Manually edit these to match criteria in your selection
 #criteria look up table.  sorry this isn't more automated. But, this is a template which provides you
@@ -40,95 +38,89 @@ library(dplyr)
 #The trick is not to be too restrictive so that you end up with a large enough pool of sites 
 #to acquire a good empirical estimate, but not so restrictive that you end up with sites that 
 #don't look like your defined River Style.
-criteria
 
+#
+#Before makeing individual selections for diferent river styles, you can eliminate certain type streams from the entire pool of database streams
 
-#Since all Asotin streams are boulder-cobble-gravel.  I want to eliminate from the data
-#All streams with sand size fraction greater than 50%
-
-sandystreams=data1%>%
- filter(Sndf>50)
-sandystreams #this search will eliminate four reaches visits 820,1971,2288,3975
-
-data=data1%>%
-  filter(Sndf<50)
+data1=data%>%
+  filter(Sndf<50)  #for example this will eliminate all streams with sand size fraction greater than 50% from the pool of available sites.
 
 #Example selection options.  You won't use all available selection options, just the geo indicators that 
-#give you the best subset for your river style type.
-#selection=data%>%
-#  filter((Gradient < 3.5 & Gradient>1) 
-#         & Threads=="Single" 
-#         & Braid <1.4
-#         & Bedform=="Plane-Bed" 
+#give you the best subset for your river style type. Comment out any that you don't have data for or don't want to use. This might be iterative 
+#because you want enough data to give you an adequate subset, but not too general that the streams found aren't representative of your river style and condition.
+
+#Keep your River Style codes, short and easy to understand.  These will be carried through as the label identifier used for each River style
+#if it has a condition varient add it after the code as "good" "moderate" or "poor" all in lower case.
+
+RS1good=data1%>%
+  filter((Gradient < 3.5 & Gradient>1) 
+         & Threads=="Single" 
+         & Braid <1.4
+         & Bedform=="Plane-Bed" 
 #         & Sinuosity<1.1 
-#         & Confinement!="UCV" 
-#         & (LWfreq < 30 | is.na(LWfreq))
-#         & Bldr>20
-#         & Cbl>20
+         & Confinement!="UCV" 
+         & (LWfreq < 30 | is.na(LWfreq))
+         #& Bldr>20
+#        & Cbl>20
 #         & Gvl>50
-#         &Sndf<10
+         &Sndf<10
 #         & bfw/bfd>15
 #         & bfw>20
 #         & bfd>1
-#  )
-
-
-
-
-## Asotin RS Example Selection
-
-
-#Example selection options.  You won't use all available selection options, just the geo indicators that 
-#give you the best subset for your river style type.
-#yourRScond=data%>%
-#  filter((Gradient < 3.5 & Gradient>1) 
-#         & Threads=="Single" 
+  )%>%
+  mutate(RS="RSA",               #adds a column with your river style code associated with these selected sites
+         Condition="moderate"    #adds a column with your river style condition code associated with these selected sites
+  ) 
+a #prints the selection to console for immediate feedback to see if it seems okay (not too large, small, etc.)
+#
+b=data1%>%
+  filter((Gradient < 1 ) 
+         & Threads=="Multi" 
 #         & Braid <1.4
-#         & Bedform=="Plane-Bed" 
-#         & Sinuosity<1.1 
-#         & Confinement!="UCV" 
-#         & (LWfreq < 30 | is.na(LWfreq))
-#         & Bldr>20
-#         & Cbl>20
-#         & Gvl>50
-#         &Sndf<10
+         & Bedform=="Plane-Bed" 
+#         & Sinuosity>1.1 
+         & Confinement!="CV" 
+         & (LWfreq > 10 | is.na(LWfreq))
+ #        & Bldr>20
+#        & Cbl>20
+#        & Gvl>50 
+#        &Sndf<10
 #         & bfw/bfd>15
-#         & bfw>20
+         & bfw>10
 #         & bfd>1
-#  )
-#yourRScond$RScond="FCmod"
-#yourRScond
+)%>%
+  mutate(RS="RSA",               #adds a column with your river style code associated with these selected sites
+         Condition="moderate"    #adds a column with your river style condition code associated with these selected sites
+         ) 
 
-#COMBINE YOUR SELECTIONS
-selections=rbind(,,,,,,)
+b #prints the selection to console for immediate feedback to see if it seems okay (not too large, small, etc.)
 
-
-#combine your selections above into one dataset
-#selections=rbind(FCpoor,FCmod, FCgood, FCintact,
-#                 AFpoor,AFmod, AFgood, AFintact,
-#                 PCpoor,PCmod, PCgood, PCintact,
-#                 WApoor, WAmod, WAgood,WAintact,
-#                 CVpoor, CVmod, CVgood, CVintact)
-
+###########################################################
+#Combine selectiosn into one dataset and export to .csv
+###########################################################
+selections=rbind(a,b)%>%mutate(RScond=paste(RS, Condition, sep=""))
 
 #Write file to INput director to be used in subsequent scripts ou can change the name if you want to
-selectionfilename="Asotinselections"
+selectionfilename="selections"
 
 write.csv(selections, paste(INdir, "\\", selectionfilename, ".csv",  sep=""), row.names=F) 
 
-#######Copy Mapys corresponding to selections for review#################
+###########################################################
+###Copy Mapys corresponding to selections for review
+###########################################################
 
 MAPrepo=paste(DATAdir, "\\Maps", selectionname, sep="")
 
 ##read in selections generated from RSselection.R
-selections=read.csv("E:\\PantherUpscale\\Inputs\\Pantherselections.csv")
+selections=read.csv(selections, paste(INdir, "\\", selectionfilename, ".csv",  sep=""))
 
 layer="Tier3_InChannel"
 RScolname="RScond"
 idcolname="visit"
 idcolname2=NA
 
-source("E:\\GitHub\\GeomorphicUpscale\\scripts\\MapsbyRSselection.R")
+#soruce the geomorphic MapsbyRSselection from where it is locally saved.
+source("...\\GeomorphicUpscale\\scripts\\MapsbyRSselection.R")
 #source(MapsbyRSselection)
 
   
