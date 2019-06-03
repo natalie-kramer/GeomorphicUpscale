@@ -3,30 +3,30 @@
 #that match geomorphically to specified geomorphic indicator characteristics. 
 
 #Natalie Kramer (n.kramer.anderson@gmail.com)
-#Last Updated Dec 7, 2018
+#Last Updated June 3, 2019
 
 
 ###########################################################
 #Dependencies
 ###########################################################
-#load('E:\\GitHub\\GeomorphicUpscale\\UnitSummary.R') #isn't reading in correctly?
 library(dplyr)
 
 ###########################################################
 #Define User File Path Directories
 ###########################################################
-#Local location of database
-DATAdir="...//GeomorphicUpscale//Database"
 
 #User defined project directories Loation
-PROJdir='Your\\project\\filepath'
+PROJdir="...//MYUpscalePRoject"
+
+#Local location of GeomorphicUpscale
+DATAdir=paste("...//GeomorphicUpscale")
 
 ###########################################################
 #Reads in specified data and defines script locations
 ###########################################################
 #reads in database of reach variables.
-data=read.csv(paste(DATAdir, "Database_reachcharacteristics.csv", sep="\\"))
-head(data1)
+data=read.csv(paste(DATAdir, "Database\\Database_reachcharacteristics.csv", sep="\\"))
+head(data)
 
 
 ###########################################################
@@ -52,13 +52,17 @@ data1=data%>%
 #Keep your River Style codes, short and easy to understand.  These will be carried through as the label identifier used for each River style
 #if it has a condition varient add it after the code as "good" "moderate" or "poor" all in lower case.
 
+
+# #River Style type 1 Selections-----------------------------------------------------
+
+
 RS1good=data1%>%
   filter((Gradient < 3.5 & Gradient>1) 
+         & Confinement!="UCV" 
          & Threads=="Single" 
          & Braid <1.4
          & Bedform=="Plane-Bed" 
 #         & Sinuosity<1.1 
-         & Confinement!="UCV" 
          & (LWfreq < 30 | is.na(LWfreq))
          #& Bldr>20
 #        & Cbl>20
@@ -73,6 +77,10 @@ RS1good=data1%>%
   ) 
 a #prints the selection to console for immediate feedback to see if it seems okay (not too large, small, etc.)
 #
+
+
+
+# #River Style type 2 Selections  -----------------------------------------------------
 b=data1%>%
   filter((Gradient < 1 ) 
          & Threads=="Multi" 
@@ -89,11 +97,13 @@ b=data1%>%
          & bfw>10
 #         & bfd>1
 )%>%
-  mutate(RS="RSA",               #adds a column with your river style code associated with these selected sites
+  mutate(RS="RSB",               #adds a column with your river style code associated with these selected sites
          Condition="moderate"    #adds a column with your river style condition code associated with these selected sites
          ) 
 
 b #prints the selection to console for immediate feedback to see if it seems okay (not too large, small, etc.)
+
+
 
 ###########################################################
 #Combine selectiosn into one dataset and export to .csv
@@ -103,16 +113,29 @@ selections=rbind(a,b)%>%mutate(RScond=paste(RS, Condition, sep=""))
 #Write file to INput director to be used in subsequent scripts ou can change the name if you want to
 selectionfilename="selections"
 
+INdir=paste(PROJdir, "Inputs", sep="\\")
+if(file.exists(INdir)==F)(dir.create(INdir))
+
 write.csv(selections, paste(INdir, "\\", selectionfilename, ".csv",  sep=""), row.names=F) 
 
 ###########################################################
-###Copy Mapys corresponding to selections for review
+###Copy Maps corresponding to selections for review
 ###########################################################
 
-MAPrepo=paste(DATAdir, "\\Maps", selectionname, sep="")
+MAPrepo=paste(DATAdir, "Database\\Maps", sep="\\")
+
+#set directory where selections .csv is housed
+INdir=paste(PROJdir, "Inputs", sep="\\")
+if(file.exists(INdir)==F)(dir.create(INdir))
 
 ##read in selections generated from RSselection.R
-selections=read.csv(selections, paste(INdir, "\\", selectionfilename, ".csv",  sep=""))
+selections=read.csv(paste(INdir, "\\", selectionfilename, ".csv",  sep=""))
+
+##specify output directory
+OUTdir=paste(INdir, "Maps", sep="\\")
+if(file.exists(OUTdir)==F){dir.create(OUTdir)}
+
+##specify variables used in script
 
 layer="Tier3_InChannel"
 RScolname="RScond"
@@ -120,7 +143,8 @@ idcolname="visit"
 idcolname2=NA
 
 #soruce the geomorphic MapsbyRSselection from where it is locally saved.
-source("...\\GeomorphicUpscale\\scripts\\MapsbyRSselection.R")
-#source(MapsbyRSselection)
+source(paste(DATAdir, "\\scripts\\MapsbyRSselection.R", sep=""))
+
+
 
   

@@ -9,7 +9,7 @@
 #MapsbyRSselection=function(selections,  OUTdir, Maprepo, layer="Tier3_InChannel", RScolname="RScond", idcolname="Visit", idcolname2=NA){
  
 
- MAPrepo=paste(DATAdir, "\\Maps", sep="")  
+ MAPrepo=paste(DATAdir, "\\Database\\Maps", sep="")  
   RScolname="RScond" 
   idcolname="visit"
   idcolname2=NA
@@ -26,24 +26,20 @@
   print("RSlist")
   print(RSlist)
   
-  maplist=paste(MAPrepo,list.files(MAPrepo)[grep(layer, list.files(MAPrepo))],sep="\\")#list of files in MAPrepo
+  maplist=paste(MAPrepo,
+                list.files(MAPrepo)[grep(layer, list.files(MAPrepo))],sep="\\")#list of files in MAPrepo
   
-  Mapdir=paste(INdir, "Maps", sep="\\")
-  if (file.exists(Mapdir)==F){dir.create(Mapdir)} #Map map output Dir if it doesn't exist already
-  if (file.exists(Mapdir)==T){
-    if (file.exists(paste(Mapdir,layer,sep="\\"))==F){
-      dir.create(paste(Mapdir,layer,sep="\\"))
-    }
-    if (file.exists(paste(Mapdir,layer,sep="\\"))==T){
-      unlink(paste(Mapdir,layer,sep="\\"), recursive=T)
-      dir.create(paste(Mapdir,layer,sep="\\"))
-    }
-  }
   
+  #call in custom function to create subdirectories
+  source(paste(DATAdir,"\\scripts\\create.subdirs.func", sep=""))
+  create.subdirs(INdir, c("Maps",layer))
+  Mapdir=paste(INdir, "\\Maps\\", layer,sep="")
+
+  #loops down list of riverstyles and copies relevent visit maps from Map Repo
   i=1
   for(i in 1:length(RSlist)){
     RS=RSlist[i]
-    RSdir=paste(Mapdir, layer, RS, sep="\\") #create output directory for RS and condition
+    RSdir=paste(Mapdir, RS, sep="\\") #create output directory for RS and condition
     if (file.exists(RSdir)==F){dir.create(RSdir)}  #make folder corresponding to RS and condition if it doesnt exist already
     
     rows=which(selections[,RScol]==RSlist[i]) #vector of rows related to given RS and Condition
@@ -59,35 +55,6 @@
   rm(list=c(  "i"     ,     "ID"      ,   "idcol"   ,   "idcolname" , "idcolname2", "INdir" , "Mapdir",    
  "mapfile" ,   "maplist"  ,  "MAPrepo"  ,  "rows"  ,     "RS"   ,      "RScol"  ,    "RScolname" , "RSdir",      "RSlist"   ) ) 
   
- #keepvars=c("criteria", "selections", "PROJdir","plottype", "DATAdir", "makeplot", "network", "layer")
-  #keep=match(x = keepvars, table = ls())
-  #ls()[-keep]
-  #vars
-  
-  #removing intermediate variables
-  #dnrm <- function(vars, envir = .GlobalEnv) { 
-  #  vars <- c(vars, "dnrm") 
-  #  keep <- match(x = vars, table = ls(envir=envir)) 
-  #  if(any(is.na(keep))) { 
-  #    stop(paste("Some of the variables were not found in", 
-  #               environmentName(envir))) 
-  #  } 
-  #  rm(list = ls(envir = envir)[-keep], envir = envir) 
-  #  cat("Removed all but", length(keep), "objects from", 
-  #      environmentName(envir), fill = TRUE) 
-  #} 
-  
-  #dnrm(c("criteria", "DATAdir", "layer", "makeplot", "network", "plottype", "PROJdir", "selections"))
-    #In case you need two columns to define the unique mapfile
-    #if(is.na(idcolname2)==F){
-    #  ID2=selections[rows[i],idcol]
-    #  mapfile=maplist[grep( paste(ID,ID2, sep="_") , maplist)]
-    #  if (file.exists(mapfile)){
-     #   file.copy(mapfile, RSdir)} else {print(paste("map for", ID, ID2, "does not exist", sep=" "))
-     #   }
-    #}
-#  } 
-#}
 
 ###################
 #####Variables
@@ -111,17 +78,14 @@
 ###################
 #####Example Usage
 ##################
-
 ##specify an output directory where the maps will be placed.
-#OUTdir='E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Analyses\\Upscaling\\Maps'
-#OUTdir='E:\\PantherUpscale\\Outputs\\Maps'
+#OUTdir='...MYPROJECT\\Inputs\\Maps'
 
 ##Specify where the database map directory is
-#MAPrepo="E:\\GitHub\\GeomorphicUpscale\\Database\\Maps"
+#MAPrepo="...\\GeomorphicUpscale\\Database\\Maps"
 
 ##read in selections generated from RSselection.R
-#selections=read.csv("E:\\GitHub\\GeomorphicUpscale\\ExampleData\\Asotinselections.csv")
-#selections=read.csv("E:\\PantherUpscale\\Inputs\\Pantherselections.csv")
+#selections=read.csv("...MyProject\\inputs\\selections.csv")
 
 #MapsbyRSselection(selections, OUTdir, MAPrepo, layer="Tier3_InChannel", RScolname="RScond" ,idcolname="visit")
 ##################
