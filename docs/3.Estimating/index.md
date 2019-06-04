@@ -26,8 +26,8 @@ This is flat *.csv* which has a row for every stream segment on the basin networ
  - Condition0: Mapped condition of reach. set to 'NA' if condition was not mapped.
  - Condition1: Restoration condition scenario.  For each network scenario, simply make a new field and increase the number after Condition.
 
--#### Local Location of GeomorphicUpscale  ####
-You will need to specify the local location of the Geomorphic Upscale folder.
+- #### Local Location of GeomorphicUpscale  ####
+You will need to specify the local location of the [Geomorphic Upscale folder](https://github.com/natalie-kramer/GeomorphicUpscale)
 
 
 Click here for a [review of which data are available]({{ site.baseurl }}\5.Upscaling) within the regional database. The summary files for the reaches in the Database are located in the [*Metrics*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/Metrics) folder housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder.  These metric summaries were generated using the [Supporting RTools associated with PyGUT](https://github.com/Riverscapes/pyGUT/tree/master/SupportingTools/RScripts/Development).
