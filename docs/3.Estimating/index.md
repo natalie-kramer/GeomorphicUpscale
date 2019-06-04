@@ -4,13 +4,17 @@ title: Estimating
 
 Go back to [home]({{ site.baseurl }})
 
+# Overview
+In order to upscale modelling responses at the reach scale that are within the database.  Click here for a [review of which data are available]({{ site.baseurl }}\5.Upscaling) within the regional database, ({{ site.baseurl }})
+
+
 # Estimate
 
-The next step is to empirically estimate geomorphic assemblages and modelling responses for each River Style and Condition variants in your network.   These scripts use as input the local directory path to summaries of GUT output.  The summary files for the reaches in the Database are located in the [*GUTMetrics*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/GUTMetrics)  folder housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder.  GUT summaries  can also be generated using the GU_Summary Toolkit housed in the SupportingTools/Rscripts subdirectory of [PyGUT](https://github.com/Riverscapes/pyGUT/tree/master/SupportingTools/Rscripts/GU_Summary). 
+The next step is to empirically estimate geomorphic assemblages and modelling responses for each River Style and Condition variants in your network.   These scripts use as input the local directory path to summaries of GUT output.  The summary files for the reaches in the Database are located in the [*Metrics*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/Metrics)  folder housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder.  These metric summaries were generated using the [Supporting RTools associated with PyGUT](https://github.com/Riverscapes/pyGUT/tree/master/SupportingTools/RScripts/Development). 
 
 ## Step 1: Estimate Assemblages
 
-You will estimate the geomorphic assemblage (percent of bankful reach area taken up by each geomorphic landform type) for each of your reach type and condition variants using the function *assemblage()* in the script  [*assemblage.R*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/scripts/assemblage.R).  The script takes as input the local directory path to [*GUTMetrics*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/GUTMetrics) as well as your selections table generated from the previous  [Select and Review](({{site.baseurl}}/2.Selecting) step.  You will also need to identify which GUT layer you want to estimate assemblages for: *Tier2_InChannel_Transitions* or *Tier3_InChannel*.  See [PyGUT webpage](https://riverscapes.github.io/pyGUT/background.html) for background documentation on these layers.
+You will estimate the geomorphic assemblage (percent of bankful reach area taken up by each geomorphic landform type) for each of your reach type and condition variants using the function *assemblage()* in the script  [*assemblage.R*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/scripts/assemblage.R).  The script takes as input the local directory path to [*Metrics*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/GUTMetrics) as well as your selections table generated from the previous  [Select and Review](({{site.baseurl}}/2.Selecting) step.  You will also need to identify which GUT layer you want to estimate assemblages for: *Tier2_InChannel_Transitions* or *Tier3_InChannel*.  See [PyGUT webpage](https://riverscapes.github.io/pyGUT/background.html) for background documentation on these layers.
 
 There are two functions within assemblage.R: *assemblage()* and *assemblagechart()*. 
 
