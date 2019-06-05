@@ -1,0 +1,24 @@
+# Table of geomorphic characteristics used to select example reaches from the GUT database  For each River Style and condition of interest.,,,,
+,,,,
+Basin,[factor] Name of basin river style is defined for,,,
+RiverStyle,"[factor] defined river style or process domain of interest, usually mapped across the entire network after  Brierly and Fryirs ().",,,
+RS,[factor] user defined abbreviation for river style,,,
+Condition,"[factor] Condition varient as poor, moderate, good or intact after Brierly and Fryirs ().",,,
+C,[numeric] Single value of braiding index to be used as a scalar to adjust channel area for multi threads. Usually the average or median.,,,
+,,,,
+Basin,RiverStyle,RS,Condition,Braid
+Asotin,Fan Controlled,FC,poor,1
+Asotin,Fan Controlled,FC,mod,1.02
+Asotin,Fan Controlled,FC,good,1.08
+Asotin,Alluvial Fan,AF,poor,1
+Asotin,Alluvial Fan,AF,mod,2
+Asotin,Alluvial Fan,AF,good,3
+Asotin,Planform Controlled,PC,poor,1
+Asotin,Planform Controlled,PC,mod,1.2
+Asotin,Planform Controlled,PC,good,1.5
+Asotin,Wandering gravel bed,WA,poor,1
+Asotin,Wandering gravel bed,WA,mod,1.5
+Asotin,Wandering gravel bed,WA,good,2
+Asotin,Confined Valley,CV,poor,1
+Asotin,Confined with Floodplain pockets,CV,mod,1.05
+Asotin,Confined with Floodplain pockets,CV,good,1.1
