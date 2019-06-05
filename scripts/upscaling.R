@@ -35,8 +35,9 @@ if(validateselection==F){
 
 #Read in estimates of Assemblages and re-arrange
 assemblage=read.csv(paste(OUTdir, "\\", layer,"\\" ,"Selection\\GU\\", "\\assemblage_stats.csv", sep=""))
-bfgu=assemblage%>%
-  select("RScond","Condition", "RS", "Unit", PercGU="avg")
+bfgu=assemblage %>%
+  #select("RScond","Condition", "RS", "Unit", PercGU="avg")
+  rename(PercGU=avg)
 bfgu$RScond=as.character(bfgu$RScond)
 
 
@@ -44,7 +45,7 @@ bfgu$RScond=as.character(bfgu$RScond)
 if(upscalevar=="Capacity" & ROI=="bf"){ 
  # if(poolby=="RScond"){
     response=read.csv(paste(OUTdir, "\\", layer,"\\Selection\\",model ,"\\Density\\bf\\responseby", poolby, "_stats.csv", sep=""))%>%
-      rename("bfdensity"=avg)
+      rename("bfdensity"=avg, "sd.r"=sd, "n.r"=n)
     }
 # if(poolby=="RS"){
 #    response=read.csv(paste(OUTdir, "\\", layer,"\\Selection\\",model ,"\\Density\\bf\\responsebyRS_stats.csv", sep=""))}
@@ -55,9 +56,9 @@ if(upscalevar=="Capacity" & ROI=="bf"){
 if(upscalevar=="Capacity" & ROI=="hab"){ 
 
     response1=read.csv(paste(OUTdir, "\\", layer,"\\Selection\\",model ,"\\Density\\hab\\responseby", poolby, "_stats.csv", sep=""))%>%
-      rename(habdensity=avg)
+      rename(habdensity=avg, "sd.r"=sd, "n.r"=n)
     response2=read.csv(paste(OUTdir, "\\", layer,"\\Selection\\",model ,"\\Hab\\bf\\responseby", poolby,  "_stats.csv", sep=""))%>%
-      rename(fhabinGU=avg)
+      rename(fhabinGU=avg, "sd.r"=sd, "n.r"=n)
 
     response=response1%>%
       left_join(response2, by=c("RS", "Unit", "Condition", "RScond"))
@@ -71,7 +72,7 @@ if(upscalevar=="Capacity" & ROI=="hab"){
     
 if(upscalevar=="ModelVal"){
   response=read.csv(paste(OUTdir, "\\", layer,"\\Selection\\",model ,"\\MedModelVal\\responseby", poolby, "_stats.csv", sep=""))%>%
-    rename(modelval=avg)
+    rename(modelval=avg, "sd.r"=sd, "n.r"=n)
   # I need to make these outputs
 }
 ###Pooling Response#####
@@ -152,6 +153,7 @@ for(i in 1:length(condcols.n)) {
   
   upscale1=upscale%>%
     full_join(bfgu, by="RScond")%>%
+    #full_join(bfgu, by="RScond")%>%
     filter(!is.na(.[,1]))
   upscale1=upscale1[,-grep(".y",names(upscale1), fixed=T)]
   names(upscale1)=gsub(".x", "", names(upscale1), fixed=T)
@@ -193,8 +195,12 @@ for(i in 1:length(condcols.n)) {
 #Upscale Math
     
 if(upscalevar=="Capacity" & ROI=="bf"){
-    upscale3=upscale2%>%
-      mutate(var=Area*PercGU/100*bfdensity)
+    upscale2$bfwE=bfwE  
+  upscale3=upscale2%>%
+      mutate(var=Area*PercGU/100*bfdensity)%>%
+      #mutate(varEw=abs(var)*sqrt( (bfwE/BFWest)^2+(sd/PercGU)^2+(sd.r/bfdensity)^2))%>%
+      mutate(varSE=abs(var)*sqrt(((sd/sqrt(n))/PercGU)^2+((sd.r/sqrt(n.r))/bfdensity)^2))%>%
+      mutate(varSD=abs(var)*sqrt((sd/PercGU)^2+(sd.r/bfdensity)^2))
     }
     
 if(upscalevar=="Capacity" & ROI=="hydro"){
@@ -218,7 +224,8 @@ if(validateselection==F){
       
       if(upscalevar=="Capacity"){
         subreachupscale=upscale3%>% #summarize(cap=sum(cap), cap.m.sd=sum(cap.m.sd), cap.p.sd=sum(cap.p.sd), Length_m=max(Length_m), width_m=max(BFWest), StreamArea_m2=max(StreamArea))%>%
-          summarize(var=sum(var, na.rm=T), Area=max(Area, na.rm=T))
+          summarize(var=sum(var, na.rm=T), varSD= sqrt(sum(varSD^2, na.rm=T)), varSE=sqrt(sum(varSE^2, na.rm=T)), Area=max(Area, na.rm=T))
+          
       }
           #mutate(capby100L=cap/Length_m*100, capby100A=cap/StreamArea_m2*100)
       if(upscalevar=="ModelVal"){
@@ -279,7 +286,7 @@ globalupscale=reachupscale%>%
   group_by(Scenario)
   
   if(upscalevar=="Capacity"){
-    globalupscale=globalupscale%>%summarize(var=sum(var,na.rm=T), Area=sum(Area,na.rm=T))}
+    globalupscale=globalupscale%>%summarize(var=sum(var,na.rm=T), varSD= sqrt(sum(varSD^2, na.rm=T)), varSE=sqrt(sum(varSE^2, na.rm=T)), Area=sum(Area,na.rm=T))}
 
   if(upscalevar=="ModelVal"){
   globalupscale=globalupscale%>%summarize(var=mean(var,na.rm=T), Area=sum(Area,na.rm=T))}
