@@ -3,6 +3,8 @@
 title: Selecting
 ---
 
+Go back to [home]({{ site.baseurl }})
+
 # Overview
 You utilize geomorphic indicator variables to select from the [regional database](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv)  analogue reaches of River Styles (Brierly and Fryiers, 2005) that you define for your network of interest. For the Asotin example, we used the criterion in this [River Styles geoindicator table](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/AsotinGeoindicators.png) to help us make our selections.
 
