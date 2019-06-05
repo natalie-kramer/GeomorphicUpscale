@@ -3,7 +3,7 @@
 title: Geomorphic Upscaling
 ---
 
-Go back to [home]()
+Go back to [home]({{ site.baseurl }})
 
 # Overview
 The geomorphic upscale empirically estimates geomorphic assemblages and modelling responses for each River Style and Condition variants in your network and then upscales responses onto the entire network using your River Styles designations and Condition scenarios. [*UpscaleWrapper.R*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/UpscaleWrapper.R) is the user editable file from which the upscale is run. 
