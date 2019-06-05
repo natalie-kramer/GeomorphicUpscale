@@ -3,11 +3,11 @@
 title: Selecting
 ---
 
-# Select
-We sample the [existing database](familiarizing.md) based on geomorphic incicators to predict geomorphic assemblages for reach types defined on the  network of interest. In the example data, the network is mapped by River Styles (RS) and Geomorphic Condition varience as in Brierly and Fryirs (2005).  
+# Overview
+We use geomorphic indicator variables to select from the [regional database](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv)  analogue reaches of River Styles (Brierly and Fryiers, 2005) that you define for your network of interest. For the Asotin example, we used the criterion in this [River Styles geoindicator table](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/AsotinGeoindicator.PNG) to help us make our selections.
 
 ## Step 1. Define river styles on your network
-Categorize your network into similar reach types or process domains and characterize bounds of indicator variables for each reach type. The geoindicators that are available to use are summarized below. The categorical variables describe the predominant character of the reach for each of the variables. The continuous variables were chosen for their ease of acquisition as well as for their general geomorphic importance. The file [*Database_reachcharacteristics.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/Database/Database_reachcharacteristics.csv) housed in the [Database](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database) folder contains these data for each stream in the database. 
+Categorize your network into similar reach types or process domains and characterize bounds of indicator variables for each reach type. The geoindicators that are available to use are summarized below. The categorical variables describe the predominant character of the reach for each of the variables. The continuous variables were chosen for their ease of acquisition as well as for their general geomorphic importance.  contains these data for each stream in the database. 
 
 ### <u>Continuous Variables </u>
 - **Gradient** ratio elevation drop over distance 
@@ -30,8 +30,6 @@ Categorize your network into similar reach types or process domains and characte
 - **Confinement** CV;PC; UCV (confined valley, partly confined valley, uconfined valley) 
 
 You use these indicators to help you select a subset of the rivers in the database that are similar in character to each of your defined reach types.  You do not need to utilize all of the geo-indicator variables, just the ones that you think are most important for your reaches. We highly recommend that at the minimum you include gradient, the Bedform categorical variable and either the Braid continuous variable or the Threads categorical variable. 
-
-For the Asotin example, we used the criterion in this [River Styles geoindicator table](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/AsotinGeoindicator.PNG)
 
 Although we used the same set of geoindicators for each river style and condition in the Asotin basin, you don't have to.  For example you could choose to use a D50 geoindicator for only one type of river style. It is important to recognize that you could have a River Style that is wandering, but the actual reach planform is something else, like straight.  This is because River Style usually takes a slightly broader view of the landscape around the reach, characterizing what the character of the planform should be if it was in good condition.  A disconnect between the River Style name and the geo-indicator planforms (or other characteristic) most often occur in reaches that are in poor or moderate condition. The main thing is to pick geoindicators that differentiate river styles and conditions.
 
