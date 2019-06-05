@@ -8,7 +8,7 @@ Go back to [home]({{ site.baseurl }})
 # Overview
 The geomorphic upscale empirically estimates geomorphic assemblages and modelling responses for each River Style and Condition variants in your network and then upscales responses onto the entire network using your River Styles designations and Condition scenarios. [*UpscaleWrapper.R*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/UpscaleWrapper.R) is the user editable file from which the upscale is run. 
 
-## Step 1: Set up a project directory with your Inputs
+## Step 1: Create and point to your inputs
 The first thing you will need to do is to point to the locations of your inputs. You will need to generate three user generated tables: *selections.csv*, *braid.index.csv*, and *network.csv*.  You will also need to download and point to the [Geomorphic Upscale Repo](https://github.com/natalie-kramer/GeomorphicUpscale). 
 
 ### User defined Inputs ###
