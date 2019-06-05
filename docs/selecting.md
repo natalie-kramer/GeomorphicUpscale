@@ -31,7 +31,7 @@ Categorize your network into similar reach types or process domains and characte
 
 You use these indicators to help you select a subset of the rivers in the database that are similar in character to each of your defined reach types.  You do not need to utilize all of the geo-indicator variables, just the ones that you think are most important for your reaches. We highly recommend that at the minimum you include gradient, the Bedform categorical variable and either the Braid continuous variable or the Threads categorical variable. 
 
-For the Asotin example, we used the criterion in this table [](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/.PNG)
+For the Asotin example, we used the criterion in this [River Styles geoindicator table](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/docs/assets/AsotinGeoindicator.PNG)
 
 Although we used the same set of geoindicators for each river style and condition in the Asotin basin, you don't have to.  For example you could choose to use a D50 geoindicator for only one type of river style. It is important to recognize that you could have a River Style that is wandering, but the actual reach planform is something else, like straight.  This is because River Style usually takes a slightly broader view of the landscape around the reach, characterizing what the character of the planform should be if it was in good condition.  A disconnect between the River Style name and the geo-indicator planforms (or other characteristic) most often occur in reaches that are in poor or moderate condition. The main thing is to pick geoindicators that differentiate river styles and conditions.
 
@@ -46,7 +46,9 @@ Once you have your lists of selections for each of reach types and conditions, i
 You will want to throw out any sites within each grouping that don't fit before moving on to estimating geomorphic assemblages. If the selections just seem off as a whole or you would like greater numbers, you will want to go back and revise your initial selection. If the streams from the database just don't seem like good analogues, then be aware that the geomorphic assemblage estimates may not reflect reality for your situation. You may consider just upscaling the reaches where the selections decently the mimic geomorphic character of your reaches. When you are happy with your *selection.csv* file you are ready to move on!
 
 ## What's next?
-Once you are happy with your selections and they are saved in your local project directory within an Inputs folder (see example data [*selections.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/AsotinUpscaleExample/Inputs/selections.csv)) You are now ready to [Estimate]({{ site.baseurl }}/4.Estimating) the assemblages and your fish response by geomorphic unit using your selections output.
+Once you are happy with your selections and they are saved in your local project directory within an Inputs folder (see example data [*selections.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/AsotinUpscaleExample/Inputs/selections.csv)) You are now ready to [Upscale]() using your selections output.
+
+Go to the [next step]().
 
 ## References
 
