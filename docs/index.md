@@ -9,7 +9,7 @@ Welcome to Geomorphic Upscale. This site provides documentation for how to upsca
 The basic process is:
 
 1. [Familiarize]({{ site.baseurl }}/1.Familiarizing)  yourself with the base dataset to make sure that the stream characteristics in your network are similar to those in the base database.. 
-2. [Select and Review]({{ site.baseurl }}/2.Selecting) similar sites based on River Style geoindicators
+2. [Select and Review](selecting.md) similar sites based on River Style geoindicators
 3. [Estimate]({{ site.baseurl }}/3.Estimating) geomorphic assemblages and responses by geomorphic unit 
 4. [Upscale]({{ site.baseurl }}/4.Upscaling) estimates to the network based on River Style and Condition.
 
