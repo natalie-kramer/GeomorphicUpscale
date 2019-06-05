@@ -1,6 +1,6 @@
 
 #This script uses information within ReachSelectionCriteria.csv to select reaches within the GUT database
-#that match geomorphically to specified geomorphic indicator characteristics. 
+#that match specified geomorphic indicator characteristics. 
 
 #Natalie Kramer (n.kramer.anderson@gmail.com)
 #Last Updated June 3, 2019
