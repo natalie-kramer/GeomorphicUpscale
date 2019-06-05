@@ -3,7 +3,7 @@
 title: Geomorphic Upscaling
 ---
 
-Go back to [home]({{ site.baseurl }})
+Go back to [home]()
 
 # Overview
 The geomorphic upscale empirically estimates geomorphic assemblages and modelling responses for each River Style and Condition variants in your network and then upscales responses onto the entire network using your River Styles designations and Condition scenarios. [*UpscaleWrapper.R*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/UpscaleWrapper.R) is the user editable file from which the upscale is run. 
@@ -26,14 +26,55 @@ This is flat table which has a row for every stream segment on the basin network
  - RS: mapped River Style segment.  code should match those in *braid.index.csv* and *selections.csv*
  - Condition0: Mapped condition of reach. set to 'NA' if condition was not mapped.
  - Condition1: Optional restoration condition scenarios.  For each network scenario, simply make a new field and increase the number after Condition.
- Here is our  [exmple *network.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/AsotinUpscale/Inputs/network.csv) from the Asotin.
+ Here is our  [exmple *network.csv*](https://github.com/natalie-kramer/GeomorphicUpscale/blob/master/AsotinUpscale/Inputs/network.csv) from the Asotin.
  
 - #### Local Location of GeomorphicUpscale  ####
-You will need to specify the local location of the [Geomorphic Upscale folder](https://github.com/natalie-kramer/GeomorphicUpscale).  The scripts call R code housed in the [scripts subfolder](https://github.com/natalie-kramer/GeomorphicUpscale/scripts) and the [Database subfolder](https://github.com/natalie-kramer/GeomorphicUpscale/Database). The database includes for each site, a [table of geoindicators](https://github.com/natalie-kramer/GeomorphicUpscale/Database/Database_reachcharacteristics.csv), [geomorphic unit maps](https://github.com/natalie-kramer/GeomorphicUpscale/Database/Maps.7z), and [summaries](https://github.com/natalie-kramer/GeomorphicUpscale/Database/Metrics) of [PyGUT mappings](http://gut.riverscapes.xyz/) of geomorphic landforms and fish modelling results for Steelhead and Chinook. Summaries were done at the reach scale as well as the geomorphic unit scale. The summaries summaries were generated using the [Supporting RTools associated with PyGUT](https://github.com/Riverscapes/pyGUT/tree/master/SupportingTools/RScripts/Development).  [Summary descriptons of the database](familiarizing.md) are helpful understand if using this database to upscale your network is appropriate or useful to you.
+You will need to specify the local location of the [Geomorphic Upscale folder](https://github.com/natalie-kramer/GeomorphicUpscale).  The scripts call R code housed in the [scripts subfolder](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/scripts) and the [Database subfolder](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database). The database includes for each site, a [table of geoindicators](https://github.com/natalie-kramer/GeomorphicUpscale/tree/master/Database/Database_reachcharacteristics.csv), [geomorphic unit maps](https://github.com/natalie-kramer/GeomorphicUpscale/Database/Maps.7z), and [summaries](https://github.com/natalie-kramer/GeomorphicUpscale/Database/Metrics) of [PyGUT mappings](http://gut.riverscapes.xyz/) of geomorphic landforms and fish modelling results for Steelhead and Chinook. Summaries were done at the reach scale as well as the geomorphic unit scale. The summaries summaries were generated using the [Supporting RTools associated with PyGUT](https://github.com/Riverscapes/pyGUT/tree/master/SupportingTools/RScripts/Development).  [Summary descriptons of the database](familiarizing.md) are helpful understand if using this database to upscale your network is appropriate or useful to you.
  
 ### User defined variables ###
- 
- 
+
+#### Needed for estimates of assemblages, fish and upscale ####
+-layer: Specifies which pyGUT output to analyze. Options: "Tier3_InChannel", "Tier2_InChannel_Transition" (see PyGUT documentation for more information explaining the difference between Tier2 and Tier3)
+-makeplot: specifies whether you want to scripts to also make summary plots on the fly. Options: "T", "F"
+#plottype: Specifies format of file extension for plots. If none, they won't be saved to a folder but will show up in the plotting console as the code runs. Options: ".tiff", ".png", ".pdf", "none"
+#### Needed for estimates of fish and upscale ####
+-model: Specifies which response model to upscale. Options: "NREI", "HSI"
+-species: Specifies which fish species to upscale. Options: "Steelhead", "Chinook"
+-ROI: Specifies you region of interest to summarize fish as bankfull (bf), hydro modelling extent, or suitable habitat (hab), or best habitat defined as best half of suitable habitat values (best). Options: "bf", "hydro", "hab", "best"
+-responsevar: Specifies your response variable to upscale as total count of fish (No.Fish), # Fish/ROI area in m2 (Density), % of BF area with fish bearing modelling values (Hab), Median Modelling Value (MedModelVal). Options: "No.Fish", "Density", "Hab", "MedModelVal"
+#poolby: Specifies how you want to average responses: over the entire dataset (none), pooling by river styles (RS) or pooling by each river style and condition varient (RSCond). Options: "none", "RS", "RScond"
+#### Needed for upscale ####
+-upscalevar: Options: "Capacity", "MedModelVal"
+-method: Options: "bfDensity", "habDensity"
+-condscen: vector of column headers for condition scenarios in network input file. Example: c("Condition1", "Condition2")
+-validatenetwork=F 
+
+You only need to specify the following variables if they differ from the defaults.
+-segmentID: column header name for reach segment ID in network input file. Default: "segmentID"
+-distcol: column header name for length of segment in m in network input file. Default: "length.m"
+-bfwcol: column header name for estimates of bankful width in network input file. Default: "bf.width.m"
+-condinit: initial condition of reach segment in network input file. Default: "Condition0"
+-RScol: column header name for RiverStyle code in network input file. Should match river style codes provided in selections and braid.index files. Default: "RS"
+########################################
+
+layer="Tier3_InChannel"
+makeplot=T				
+plottype=".tiff"
+
+model="NREI" 				
+ROI="bf"   					
+responsevar="Density" 			 
+poolby="RScond"	
+	
+upscalevar="Capacity"
+method="bfDensity"
+segIDcol="segmentID"
+distcol="Length_m"
+bfwcol="BFWest"
+condcols=c("Condition0","Condition1", "Condition2")
+RScol="RS"			
+validatenetwork=F
+
  
 ## Step 2: Define user variables
  
