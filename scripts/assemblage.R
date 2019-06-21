@@ -16,11 +16,15 @@ source(paste(GUPdir, "\\scripts\\plot.colors.R", sep=""))
 
 ###################
 
+if((layer=="Tier3_InChannel" & gu.type!="GU")|(layer!="Tier3_InChannel" & gu.type=="GU")
+){  print("ERROR gu.type not compatible with layer, no output")
+  }else{
+
 #Create Output subdirectories based on user variable choices
-create.subdirs(PROJdir, c("Outputs", "assemblage", layer, gu.type ))
+create.subdirs(PROJdir, c("Outputs", "assemblage",  gu.type ,layer))
 
 #specify OUTput directory as variable
-OUTdir=paste(PROJdir, "Outputs","assemblage", layer, gu.type, sep="\\")
+OUTdir=paste(PROJdir, "Outputs","assemblage", gu.type,layer, sep="\\")
 
 #Specify location of input metric tables
 GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
@@ -29,10 +33,10 @@ GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
 #List GUToutput files corresponding to Layer
   GUToutputlist=list.files(GUTdir)[grep(layer, list.files(GUTdir)) ]
   
-  #Read in Unit Data
+#Read in Unit Data
   unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("Unit_GUT", GUToutputlist)],sep="\\"),stringsAsFactors=F)
   
-  #makes a list of all the visits
+#makes a list of all the visits
   visitlist=levels(as.factor(unitmetrics$visit.id))
   
   #makes into long format
@@ -113,10 +117,13 @@ assemblages=list(assemblage_stats=assemblage, assemblage_est=slim)
 print(assemblages)
 
 #write to output .csv
+
+
 write.csv(assemblage, paste(OUTdir, "\\assemblage_stats.csv", sep=""), row.names=F)
 write.csv(slim, paste(OUTdir,"\\assemblage_est.csv", sep=""), row.names=F)
 print(paste("files written to: ", OUTdir,  sep=" "))
   
+
 #prints plots
 #######################
 print("making plots...")
@@ -196,3 +203,4 @@ if(plottype==".png"){
   
   print("done")
   
+  }

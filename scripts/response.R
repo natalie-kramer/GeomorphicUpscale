@@ -1,5 +1,22 @@
 
-#This script takes the OUtput from GUT and summarizes responses by Unit
+#This script takes the OUtput from GUT and summarizes responses by Unit 
+
+#Natalie Kramer (n.kramer.anderson@gmail.com)
+#Last Updated June 21 2019
+
+#Documentation available on 
+#https://natalie-kramer.github.io/GeomorphicUpscale/
+
+###Dependencies####
+#package dependencies
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+
+#GUP local script dependencies
+source(paste(GUPdir,"\\scripts\\create.subdirs.func" , sep=""))
+source(paste(GUPdir, "\\scripts\\plot.colors.R", sep=""))
+###################
 
 ###Variables###########################
 ##GUTdir="E:\\Box Sync\\ET_AL\\Projects\\USA\\ISEMP\\GeomorphicUnits\\Data\\Metrics\\GUTMetrics\\GUT2.1Run01"
@@ -13,50 +30,49 @@
 ##poolby: ("RS", "RScond", "RS", "none")
 #######################################
 
-
-####
-#response=function(GUTdir, selections, OUTdir, layer="", 
-#                 model="", ROI="", responsevar="", poolby="") {     #, selectionfilepath=NA, idcolname="Visit", RScolname="RS"){ #I need to add capability of summarizing layers with or without transition.
-
-library(dplyr)
-library(tidyr)
+#I might need to specify for which response variables the ROI won't work for 
+#and print error messages
+#if(responsevar=="MedModelVal" & ROI=="bf"){print("ROI of bf is not available for responsevar of MedModelVal, choose other ROI such as hydro")
+#}
 
 
-OUTdir=paste(PROJdir,"Outputs", sep="\\")
-if (file.exists(OUTdir)==F){dir.create(OUTdir)}
-if (file.exists(paste(OUTdir,layer, sep="\\"))==F){dir.create(paste(OUTdir,layer, sep="\\"))}
-if (file.exists(paste(OUTdir,layer, "Selection",sep="\\"))==F){dir.create(paste(OUTdir,layer,"Selection", sep="\\"))}
-if (file.exists(paste(OUTdir,layer, "Selection", model, sep="\\"))==F){dir.create(paste(OUTdir,layer, "Selection", model, sep="\\"))}
-if (file.exists(paste(OUTdir,layer, "Selection" , model, responsevar, sep="\\"))==F){dir.create(paste(OUTdir,layer, "Selection", model, responsevar, sep="\\"))}
+#Create Output subdirectories based on user variable choices
+create.subdirs(PROJdir, c("Outputs","response", model, species, lifestage, responsevar, ROI,  gu.type, layer))
 
-if(responsevar=="MedModelVal"){
-  if (file.exists(paste(OUTdir,layer, "Selection",  model, responsevar,sep="\\"))==F){
-    dir.create(paste(OUTdir,layer, "Selection", model, responsevar, sep="\\"))}
-  OUTfolder=paste(OUTdir,layer,"Selection", model, responsevar,sep="\\")}else {
-    if (file.exists(paste(OUTdir,layer, "Selection",  model, responsevar, ROI ,sep="\\"))==F){
-      dir.create(paste(OUTdir,layer, "Selection", model, responsevar,ROI, sep="\\"))}
-    OUTfolder=paste(OUTdir,layer,"Selection", model, responsevar, ROI ,sep="\\")}
+#specify OUTput directory as variable
+OUTdir=paste(PROJdir, "Outputs", "response",model, species, lifestage, responsevar, ROI, gu.type, layer,sep="\\")
 
-GUTdir=paste(DATAdir,"\\GUTMetrics\\GUT2.1Run01" , sep="")
+#Specify location of input metric tables
+GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
+
+#May need to change this in the future? depended on file naming conventions.  
 #List GUToutput files corresponding to Layer
 GUToutputlist=list.files(GUTdir)[grep(layer, list.files(GUTdir)) ]
 
 #Read in Unit Data
-unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("unit", GUToutputlist)],sep="\\"),stringsAsFactors=F)
+unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("Unit_GUT", GUToutputlist)],sep="\\"),stringsAsFactors=F)%>%
+  filter(gut.layer==gu.type)
+
+
+#Not sure if I need this for this script.
+sitemetrics=read.csv(paste(GUTdir,"Site_Fish_Metrics.csv",sep="\\"),stringsAsFactors=F)
+
+#makes a list of all the visits
+visitlist=levels(as.factor(unitmetrics$visit.id))
 
 #Reads in Fish Response Data  
-responsemetrics=read.csv(paste(GUTdir,GUToutputlist[grep(paste("UnitID_",model, sep=""), GUToutputlist)],sep="\\"), stringsAsFactors=F)
+response=read.csv(paste(GUTdir,GUToutputlist[grep("Unit_Fish", GUToutputlist)],sep="\\"), stringsAsFactors=F)%>%
+filter(species==species, lifestage==lifestage, model==model)
+#sumresponse=responsemetrics%>%
+#  group_by(visit)%>%
+#  summarize(Capacity_M=sum(No.Fish, na.rm=T), 
+#            MedModelVal_M=sum(AreainDelft*MedModelVal, na.rm=T)/sum(AreainDelft, na.rm=T),
+#            No.GU_M=length(na.omit(UnitID)),
+#            bfArea=sum(Area, na.rm=T),
+#            hydroArea=sum(AreainDelft, na.rm=T),
+#            habArea=sum(SuitArea, na.rm=T))
 
-sumresponse=responsemetrics%>%
-  group_by(visit)%>%
-  summarize(Capacity_M=sum(No.Fish, na.rm=T), 
-            MedModelVal_M=sum(AreainDelft*MedModelVal, na.rm=T)/sum(AreainDelft, na.rm=T),
-            No.GU_M=length(na.omit(UnitID)),
-            bfArea=sum(Area, na.rm=T),
-            hydroArea=sum(AreainDelft, na.rm=T),
-            habArea=sum(SuitArea, na.rm=T))
-
-write.csv(sumresponse, paste(GUTdir,"\\" , "site" , model, "response_",  layer, ".csv", sep=""))
+#write.csv(sumresponse, paste(GUTdir,"\\" , "site" , model, "response_",  layer, ".csv", sep=""))
 
 
 #sumresponse2=responsemetrics%>%
