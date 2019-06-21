@@ -31,19 +31,20 @@ head(network)
 #These are set to some defaults.  Please see documentation for options.
 #https://natalie-kramer.github.io/GeomorphicUpscale/upscaling.html
 
-layer="Tier3_InChannel"
+layer="Tier3_Inchannel"
+gu.type="GU"  #UnitShape, #GU #UnitForm
 makeplot=T				
 plottype=".tiff"
 
 #response.R script is not updated to new data format yet
-#model="NREI" 	
-#species="steelhead"
-#lifestage="adult"
-#ROI="bf"   					
-#responsevar="Density" 			 
-#poolby="RScond"	
+model="NREI" 	
+species="steelhead"
+lifestage="adult"
+responsevar="density" 	
+ROI="bf"   	
+poolby="none"	
 	
-#response.R script is not updated to new data format yet
+#upscale.R script is not updated to new data format yet
 #upscalevar="Capacity"
 #method="bfDensity"
 #segIDcol="segmentID"
@@ -63,7 +64,7 @@ source(paste(GUPdir, "\\scripts\\assemblage.R", sep=""))
 
 ######Generating Response Files########
 #This SCRIPT DOES NOT YET MATCH NEW DATA FORMAT
-#source(paste(GUPdir, "\\scripts\\response.R", sep=""))
+source(paste(GUPdir, "\\scripts\\response.R", sep=""))
 
 ######Generating Upscale Files########
 #This SCRIPT DOES NOT YET MATCH NEW DATA FORMAT
