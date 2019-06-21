@@ -1,3 +1,9 @@
+shape.fill = c('Concavity' = '#004DA8', 
+              'Planar' = '#E6E600', 
+              'Convexity' = '#A80000')
+
+
+
 form.fill = c('Bowl' = '#004DA8', 
               'Bowl Transition' = '#00A9E6', 
               'Trough' = '#73DFFF', 

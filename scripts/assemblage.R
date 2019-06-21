@@ -10,30 +10,38 @@
 ###Dependencies####
 require(ggplot2)
 require(dplyr)
-###################
-
-##Functions#############
-########################
 
 source(paste(GUPdir,"\\scripts\\create.subdirs.func" , sep=""))
-create.subdirs(PROJdir, c("Outputs",layer, "Selection", "GU"))
+source(paste(GUPdir, "\\scripts\\plot.colors.R", sep=""))
 
-OUTdir=paste(PROJdir, "Outputs",layer, "Selection", "GU", sep="\\")
+###################
 
-#GUTdir=paste(DATAdir,"\\GUTMetrics\\GUT2.1Run01" , sep="")
+#Create Output subdirectories based on user variable choices
+create.subdirs(PROJdir, c("Outputs", "assemblage", layer, gu.type ))
+
+#specify OUTput directory as variable
+OUTdir=paste(PROJdir, "Outputs","assemblage", layer, gu.type, sep="\\")
+
+#Specify location of input metric tables
 GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
-  #List GUToutput files corresponding to Layer
+
+#May need to change this in the future? depended on file naming conventions.  
+#List GUToutput files corresponding to Layer
   GUToutputlist=list.files(GUTdir)[grep(layer, list.files(GUTdir)) ]
   
   #Read in Unit Data
-  unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("Unit", GUToutputlist)],sep="\\"),stringsAsFactors=F)
+  unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("Unit_GUT", GUToutputlist)],sep="\\"),stringsAsFactors=F)
   
   #makes a list of all the visits
   visitlist=levels(as.factor(unitmetrics$visit.id))
   
   #makes into long format
-  unitdata.gather=unitmetrics%>%select(-gut.layer)%>%
+  #I could also have it automatically analyze by unit shape, not just unit form.
+  
+  unitdata.gather=unitmetrics%>%filter(gut.layer==gu.type)%>%select(-gut.layer)%>%
     gather(value="value", key="variable", 3:13)
+  
+  #unitdata.gather=unitmetrics%>%gather(value="value", key="variable", 4:14)
 
   #create list of RS from which to gather summaries
     selections=selections%>%mutate(RScond=paste(RS, Condition, sep=""))
@@ -48,6 +56,7 @@ GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
       left_join(unitdata.gather, by="visit.id")%>%
       filter(!is.na(unit.type))%>%
       group_by(RS, Condition, unit.type, variable)%>%
+      #group_by(RS, Condition, gut.layer, unit.type, variable)%>%
       summarize(avg=mean(value, na.rm=T), 
                 sd=sd(value, na.rm=T),
                 med=median(value, na.rm=T), 
@@ -60,7 +69,12 @@ GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
     if(i==1){assemblage=subdata1}else{assemblage=rbind(assemblage,subdata1)}
   }
   
-unitlist=levels(as.factor(as.character(assemblage$unit.type)))
+
+#function to summarize by geomorphic unit  
+#make.slim.table=function(GUTlayer){  
+
+  #assemblage1=assemblage%>%filter(gut.layer==GUTlayer)%>%select(-gut.layer)
+  unitlist=levels(as.factor(as.character(assemblage$unit.type)))
 
 #spreads table so that unit types are converted to columns.
 #I want to make it so that I have a slim table for EACH variable. right now just proportions.
@@ -76,22 +90,39 @@ unitlist=levels(as.factor(as.character(assemblage$unit.type)))
     mutate_at(3:(2+length(unitlist)), funs(./SUM))%>%
     mutate(SUM1=select(.,-c(RS,Condition,SUM))%>% apply(1, sum, na.rm=T))%>%
     select(-SUM,-SUM1)
+#}
 
-  assemblages=list(assemblage_stats=assemblage, assemblage_est=slim)
-  print(assemblages)
+#summarize based on tier 3 GU 
+#if(layer=="Tier3_InChannel"){
+# slim=make.slim.table(GUTlayer="GU")
+# assemblages=list(assemblage_stats=assemblage, assemblage.gu_est=slim)
+# write.csv(slim, paste(OUTdir,"\\assemblage.gu_est.csv", sep=""), row.names=F)
+#} 
 
-#saves output csv
-  write.csv(slim, paste(OUTdir,"\\assemblage_est.csv", sep=""), row.names=F)
-  write.csv(assemblage, paste(OUTdir, "\\assemblage_stats.csv", sep=""), row.names=F)
-  print(paste("files written to: ", OUTdir,  sep=" "))
+#I should probably change this so that form and shape are user defined variables specifying what is of interest.
+#summarize based on Tier 2 form and shape
+#if(layer=="Tier2_InChannel"|layer=="Tier2_InChannel_Transition" ){
+#  slim=make.slim.table(GUTlayer="UnitForm")
+#  slim.shape=make.slim.table(GUTlayer="UnitShape")
+#  assemblages=list(assemblage_stats=assemblage, assemblage.form_est=slim, assemblage.shape_est=slim.shape)
+#  write.csv(slim, paste(OUTdir,"\\assemblage.form_est.csv", sep=""), row.names=F)
+#  write.csv(slim, paste(OUTdir,"\\assemblage.shape_est.csv", sep=""), row.names=F)
+#  }
+  
+assemblages=list(assemblage_stats=assemblage, assemblage_est=slim)
+print(assemblages)
+
+#write to output .csv
+write.csv(assemblage, paste(OUTdir, "\\assemblage_stats.csv", sep=""), row.names=F)
+write.csv(slim, paste(OUTdir,"\\assemblage_est.csv", sep=""), row.names=F)
+print(paste("files written to: ", OUTdir,  sep=" "))
   
 #prints plots
 #######################
 print("making plots...")
   
 if(makeplot==T){
-#assemblagechart=function(assemblage, layer="Tier2_InChannel_Transition", OUTdir=NA, plottype="none"){
-  
+ 
 #Read in and manipulate data for plotting
 cols=length(names(slim))  
 mydata=gather(slim, key="Unit", value="value", 3:(cols))
@@ -100,28 +131,29 @@ mydata=gather(slim, key="Unit", value="value", 3:(cols))
 mydata$Condition=factor(mydata$Condition, levels=c("poor", "mod", "good"))
 
 #Set plotting colors depending on layer
-#I need to fix this to match sara.
+if(gu.type=="UnitShape"){
+mycolors= shape.fill
+mydata$Unit=factor(mydata$Unit, 
+                   levels=c("Concavity", "Planar", "Convexity"))
+}
 
-source(paste(GUPdir, "\\scripts\\plot.colors.R", sep=""))
-
+if(gu.type=="UnitForm"){
+mycolors= form.fill
 
 if(layer=="Tier2_InChannel_Transition"){
-  mycolors= form.fil
   mydata$Unit=factor(mydata$Unit, 
                      levels=c("Bowl", "Bowl Transition", "Mound", "Mound Transition", "Saddle",
                                            "Trough", "Plane", "Wall"))
 }
 if(layer=="Tier2_InChannel"){
-  mycolors= form.fill
-
   mydata$Unit=factor(mydata$Unit, 
                      levels=c("Bowl", "Mound", "Saddle","Trough", "Plane", "Wall"))
   
-  }
-if(layer=="Tier3_InChannel"){
-  # set gut form and gu colors
+}
+}
 
-  
+
+if(layer=="Tier3_InChannel"){
   mycolors=gu.fill
     mydata$Unit=factor(mydata$Unit, 
                        levels=c("Pocket Pool","Pool", "Pond", 
@@ -129,6 +161,8 @@ if(layer=="Tier3_InChannel"){
                                 "Cascade", "Rapid", "Chute" ,
                                 "Glide-Run", "Transition", "Bank"))
 }
+
+
 
 ###Makes the plot
 myplot <- ggplot() +
@@ -157,7 +191,7 @@ if(plottype==".png"){
   print("erasing temporary variables")
 
   
-  keepvars=c("selections", "PROJdir","plottype", "GUPdir", "makeplot", "network", "layer","braid.index")
+  keepvars=c("selections", "PROJdir","plottype", "GUPdir", "makeplot", "network", "layer","braid.index", "gu.type")
   rm(list=ls()[-match(x = keepvars, table = ls())])
   
   print("done")
