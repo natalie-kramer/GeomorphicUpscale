@@ -9,66 +9,81 @@
 ####User Defined Inputs############
 ##################################
 
+#specify directory path to your project where you want your outputs to go.
+#Make a folder if it doesn't already existy
+PROJdir="E:\\AsotinUpscale" #filepath
 
-PROJdir="" #path to your project directory
-GUPdir=" " #path to the GeomorphicUpscale repository"
+#Specify directory path to the downloaded Git Repo
+GUPdir="" #filepath
 
-braid.index=" " ##path to braid.index.csv
-selections=" " ##path to selections.csv" 
-network=" " ##path to network.csv"
+#Read in selections created by RSselections.R
+selections.file=""  #filepath
 
 #Builds the project directory structure and re-organizes inputs
 source(paste(GUPdir, "\\scripts\\projbuild.R", sep=""))
 
-#check data
-head(network)
-head(braid.index)
-head(network)
+#user defined variables
+gu.type=""      #Options: UnitForm, GU #UnitShape not available at this time since I don't have maps of these in the database
+RSlevels=c("", "", "", "", "" ) #optional vector argument to set RS factor order in graphs and displays, leave as  NA if alphabetical is desired
+plottype=".pdf"   #Options: .tiff, .png, .pdf, "none"
+myscales="fixed" #Options: fixed or free x/y axis scales for tiled plot output
 
 #####################################
-####User Defined Variables############
+####Generating Selection Output######
 #####################################
-#These are set to some defaults.  Please see documentation for options.
-#https://natalie-kramer.github.io/GeomorphicUpscale/upscaling.html
 
-layer="Tier2_InChannel_Transition" 
-gu.type="UnitForm"  #Also: UnitShape, #GU #UnitForm
-makeplot=T				
-plottype=".tiff"
+#source the geoindicator summary script
+source(paste(GUPdir, "\\scripts\\selection.geoindicators.R", sep="")) 
 
-#response.R script is not updated to new data format yet
-#model="nrei" 	
-#species="steelhead"
-#lifestage="juvenile"
-#responsevar="density"
-#ROI="bf"   	
-#poolby="none"	
-	
-#upscale.R script is not updated to new data format yet
-#upscalevar="Capacity"
-#method="bfDensity"
-#segIDcol="segmentID"
-#lengthcol="length.m"
-#widthcol="bf.width.m"
-#condcols=c("Condition0","Condition1", "Condition2")
-#RScol="RS"			
-#validatenetwork=F
+#soruce the code to copy and file the maps
+source(paste(GUPdir, "\\scripts\\selection.maps.R", sep="")) 
 
-############################################
-######Geenerate Estimates and run the Upscale
-############################################
+#####################################
+####Generating Assemblage Output##### #plots are not printing????
+#####################################
 
-######Generating Assemblage Estimates##
-source(paste(GUPdir, "\\scripts\\assemblage.R", sep=""))
+#source and run code to generate output per reach
+source(paste(GUPdir, "\\scripts\\assemblage.reach.R", sep=""))
+
+#source and run code to generate output per unit type
+source(paste(GUPdir, "\\scripts\\assemblage.unit.R", sep=""))
+
+#####################################
+#####Generating Response Output######
+#####################################
+
+#user defined variables
+model=""         	#Options: nrei, fuzzy, NA
+species=""         #Options: steelhead, chinook, NA  #I could hardcode this for now..., one less variable.
+
+#source and run code to generate output
+source(paste(GUPdir, "\\scripts\\response.reach.R", sep=""))
+
+#source and run code to generate output
+source(paste(GUPdir, "\\scripts\\response.unit.R", sep=""))
 
 
-######Generating Response Files########
-#This SCRIPT DOES NOT YET MATCH NEW DATA FORMAT
-source(paste(GUPdir, "\\scripts\\response.R", sep=""))
+#####################################
+#####Generating Upscale Output#######
+#####################################
 
-######Generating Upscale Files########
-#This SCRIPT DOES NOT YET MATCH NEW DATA FORMAT
-#source(paste(GUPdir, "\\scripts\\upscale.R", sep=""))
+braid.index.file="" #file path
+network.file="" #file path
+#Builds the project directory structure and re-organizes inputs
+source(paste(GUPdir, "\\scripts\\projbuild.R", sep=""))
+
+responsepool="byRScond" #Options: "byRScond", "byRS", "byAll"
+segIDcol="" #user supplied
+lengthcol="" #user supplied
+widthcol="" #user supplied.
+condcols=c("","", "", "") #user supplied, variable length
+areacols=NA #user supplied. leave as NA if no area is specified per reach segment and it will be estimated
+
+#source and run code to generate output for upscaling response variabales
+source(paste(GUPdir, "\\scripts\\upscale.response.R", sep=""))
+
+#source and run code to generate output for upscaling gu variables (not written yet)
+#source(paste(GUPdir, "\\scripts\\upscale.assemblage.R", sep=""))
 
 
 ########################################
