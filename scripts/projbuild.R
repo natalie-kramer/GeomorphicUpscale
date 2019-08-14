@@ -4,6 +4,10 @@
 #Natalie Kramer (n.kramer.anderson@gmail.com)
 #Last Updated JUne 4, 2019
 
+# To Do -------------------------------------------------------------------
+
+# Make directory structure -------------------------------------------------------------------
+
 DATAdir=paste(GUPdir, "\\Database", sep="")
 
 if(file.exists(PROJdir)==F){dir.create(PROJdir)}
@@ -33,11 +37,12 @@ copy.read.func=function(file){
 #copies over network, selections and braid.index to Inputs folder
 #if they didn't already exist there
 
-if(file.exists(braid.index)==T){
-braid.index=copy.read.func(braid.index)}else{print("braid.index not found")}
+if(exists("selections.file")==T){
+  selections=copy.read.func(selections.file)}else{print("selections file not found")}
 
-if(file.exists(network)==T){
-network=copy.read.func(network)}else{print("network not found")}
+if(exists("braid.index.file")==T){
+braid.index=copy.read.func(braid.index.file)}else{print("braid.index file not specified")}
 
-if(file.exists(selections)==T){
-selections=copy.read.func(selections)}else{print("selections not found")}
+if(exists("network.file")==T){
+network=copy.read.func(network.file)}else{print("network file not specified")}
+
