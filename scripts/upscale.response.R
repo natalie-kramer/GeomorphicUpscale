@@ -39,6 +39,7 @@ plottype=plottype   #Options: .tiff, .png, .pdf, "none"
 myscales=myscales #Options: fixed or free x/y axis scales for tiled plot output
 model=model        	#Options: nrei, fuzzy, NA #I could hardcode this for now..., one less variable.
 species=species        #Options: steelhead, chinook, NA  #I could hardcode this for now..., one less variable.
+lifestage=lifestage
 
 network=network
 braid.index=braid.index
@@ -53,8 +54,12 @@ areacols=areacols
 # set up data refs and output file structure  ------------------------------------------------------------------------
 print("setting up data refs and output file structure...")
 
+#make lifestage match model type    
+if(model=="nrei"& lifestage!="juvenile"){lifestage="juvenile"
+print("lifestage changed to juvenile for nrei results")}
+
 #specify subdirectory paths to input files.
-response.subdir=c("response" , species, model, "by.unit", gu.type, responsepool)
+response.subdir=c("response" , species, model, lifestage, "by.unit", gu.type, responsepool)
 gu.subdir=c( "assemblage" , gu.type, "by.unit")
 
 #Create subdirectories based on user variable choices
@@ -71,7 +76,7 @@ OUTdir=paste(PROJdir, paste(outsubdir, collapse="\\"), sep="\\")
 unlink(paste(OUTdir,"\\*", sep=""), recursive=T)
 
 #specify GUT output layer to draw data from based on gu.type
-if(gu.type=="GU"){layer="Tier3_InChannel"}
+if(gu.type=="GU"){layer="Tier3_InChannel_GU"}
 if(gu.type=="UnitForm" | gu.type=="UnitShape"){layer="Tier2_InChannel_Transition" }
 
 
@@ -83,8 +88,12 @@ print("readin in data...")
 #I am hardcoding this.
 
 #reads in response stats
-response=read.csv(paste(PROJdir, "Outputs",paste(response.subdir, collapse="\\"), 
-                         "stats.csv", sep="\\"))
+responsefile=paste(PROJdir, "Outputs",paste(response.subdir, collapse="\\"), 
+      "stats.csv", sep="\\")
+if(file.exists(responsefile)){
+response=read.csv(responsefile)}else{print("result summary does not exist for upscale")}
+
+
 
 #this can be re-coded later to allow for upscaling of different ROI using alternate methods
 response.area=response%>%filter(variable=="area", ROI=="hydro")%>%
@@ -105,7 +114,15 @@ response.pred.fish=response%>%filter(variable=="pred.fish", ROI=="hydro")%>%
 
 #read in estimated assemblages for each RS and Condition
 assemblage=read.csv(paste(PROJdir, "Outputs",paste(gu.subdir, collapse="\\"),"byRScond" , "assemblage.csv", sep="\\"))%>%
-  select(-SUM)%>%rename('Mound Transition'=Mound.Transition, 'Bowl Transition'=Bowl.Transition)
+  select(-SUM)
+
+#get rid of periods in unit names so that they will match with other layers
+if(gu.type=="UnitForm"){
+assemblage=assemblage%>%rename('Mound Transition'=Mound.Transition, 'Bowl Transition'=Bowl.Transition)}
+if(gu.type=="GU"){
+assemblage=assemblage%>%rename('Glide Run'=Glide.Run, 'Margin Attached Bar'=Margin.Attached.Bar, 
+                                 'Mid Channel Bar'=Mid.Channel.Bar, 'Pocket Pool'=Pocket.Pool)}
+
 
 #renormalized assemblage ratios converted to long format
 
@@ -231,8 +248,10 @@ upscale2$Scenario= names(network)[condcols.n[i]] #add field that specifies which
 
 reachupscale$species=species
 reachupscale$model=model
+reachupscale$lifestage=lifestage
 reachupscale$responsepool=responsepool
 reachupscale$gu.type=gu.type
+names(reachupscale[1])=segIDcol
 
 #group results by Scenario and RS and Condition
 a=reachupscale%>%
@@ -276,7 +295,7 @@ print("erasing temporary variables")
 
 
 keepvars=c("selections", "PROJdir","GUPdir", "plottype", "myscales" , "RSlevels", "gu.type", 
-           "species", "model",  "network", "braid.index",
+           "species", "model", "lifestage", "network", "braid.index",
             "responsepool", "segIDcol", "lengthcol" , "widthcol" , "condcols", "areacols")
 
 rm(list=ls()[-match(x = keepvars, table = ls())])

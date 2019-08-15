@@ -6,6 +6,7 @@
 
 # To Do -------------------------------------------------------------------
 #clean up annotation
+#eliminate subdirectories for GU etc.  Just copy all maps matching visit?
 
 # Dependencies -------------------------------------------------------------------
 

@@ -8,9 +8,7 @@
 #https://natalie-kramer.github.io/GeomorphicUpscale/
 
 # To Do ------------------------------------------------------------
-#plots are not printing to output folders?
-#also make summary boxplots
-#fix Unit header to unit.type
+
 # Dependencies ------------------------------------------------------------
 
 require(ggplot2)
@@ -44,7 +42,7 @@ GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
 
 #specify GUT output layer to draw data from based on gu.type
 #May need to change this in the future? depended on file naming conventions.
-if(gu.type=="GU"){layer="Tier3_InChannel"}
+if(gu.type=="GU"){layer="Tier3_InChannel_GU"}
 if(gu.type=="UnitForm" | gu.type=="UnitShape"){layer="Tier2_InChannel_Transition" }
 
 #make list of GUT output matching layer

@@ -37,20 +37,18 @@ plottype=plottype   #Options: .tiff, .png, .pdf, "none"
 myscales=myscales #Options: fixed or free x/y axis scales for tiled plot output
 species=species   #Options: steelhead, chinook, ""
 model=model    ##Options: nrei, fuzzy, ""
-     
+lifestage=lifestage  ##Options: spawner, juvenile
+
 # set up data refs and output file structure  ------------------------------------------------------------------------
 
-#sets lifestage based on specified model
-if(exists("lifestage")==F){lifestage="unspecified"}
-  
-#make lifestage match model type if it doesn't    
-if(model=="nrei" & lifestage!="juvenile"){lifestage="juvenile"
-    print("lifestage set to juvenile to match specified model")}
-    
-if(model=="hsi" & lifestage!="spawner"){lifestage="spawner"
-    print("lifestage set to spawner to match specified model")}
+#make lifestage match model type    
+if(model=="nrei"& lifestage!="juvenile"){lifestage="juvenile"
+print("lifestage changed to juvenile for nrei results")}
 
-basesubdir=c("Outputs","response",  species, model)
+#if(model=="fuzzy"){lifestage="spawner"
+#print("lifestage set to spawner to match specified model")}
+
+basesubdir=c("Outputs","response",  species, model,lifestage)
 
 #specify subdirectories in Outputs according to output variables 
 create.subdirs(PROJdir, c(basesubdir, "by.reach", "pred.fish"))
@@ -61,7 +59,7 @@ create.subdirs(PROJdir,c(basesubdir, "by.reach","pred.fish_perArea_m2"))
 GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
 
 #specify GUT output layer to draw data from based on gu.type
-if(gu.type=="GU"){layer="Tier3_InChannel"}
+if(gu.type=="GU"){layer="Tier3_InChannel_GU"}
 if(gu.type=="UnitForm" | gu.type=="UnitShape"){layer="Tier2_InChannel_Transition" }
 
 #May need to change this in the future? depended on file naming conventions.  
@@ -74,7 +72,7 @@ sitefishmetrics=read.csv(paste(GUTdir,"Site_Fish_Metrics.csv",sep="\\"),stringsA
 #makes layer with just site level resonse for model, species and lifestage specified.
 myvars=c(model, species, lifestage)
 sitefish=sitefishmetrics%>%filter(model==myvars[1] & species==myvars[2] & lifestage==myvars[3] & var=="pred.fish")
-
+if(length(sitefish[,1])==0){print("no results for specified species, model and lifestage")}
 
 
 # make site summaries for different response and ROI -----------------------
@@ -174,7 +172,7 @@ siteresponse.2=selections%>%
   filter(RS!=is.na(RS))%>%
   select(visit.id, RS, Condition, value.x, Braid, bfw, bfd, value.y, value)%>%
   rename(hydrolength=value.y, pred.fish=value.x, hydroarea=value)%>%
-  mutate(volume=hydroarea*bfd)
+  mutate(volume=hydroarea*bfd, model=myvars[1], species=myvars[2], lifestage=myvars[3])
 
 #set outputdirectory
 OUTdir=paste(PROJdir, paste(c(basesubdir, "by.reach", "pred.fish" ), collapse="\\"), sep="\\")
@@ -217,7 +215,7 @@ print("erasing temporary variables")
 
 
 keepvars=c("selections", "PROJdir","GUPdir", "plottype", "myscales" , "RSlevels", "gu.type", 
-           "species", "model")
+           "species", "model", "lifestage")
     
 rm(list=ls()[-match(x = keepvars, table = ls())])
 

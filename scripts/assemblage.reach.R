@@ -43,7 +43,7 @@ GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
 
 #specify GUT output layer to draw data from based on gu.type
 #May need to change this in the future? depended on file naming conventions.
-if(gu.type=="GU"){layer="Tier3_InChannel"}
+if(gu.type=="GU"){layer="Tier3_InChannel_GU"}
 if(gu.type=="UnitForm" | gu.type=="UnitShape"){layer="Tier2_InChannel_Transition" }
 
 #make list of GUT output matching layer
@@ -53,7 +53,8 @@ GUToutputlist=list.files(GUTdir)[grep(layer, list.files(GUTdir)) ]
 
 #Read in Site Data and convert to long data format
 sitemetrics=read.csv(paste(GUTdir,GUToutputlist[grep("Site_GUT", GUToutputlist)],sep="\\"),stringsAsFactors=F)%>%
-  select(-layer)%>%
+  filter(gut.layer==layer)%>%
+  select(-gut.layer)%>%
   gather(value="value", key="variable", 2:10)
 
 #combine site data with selections

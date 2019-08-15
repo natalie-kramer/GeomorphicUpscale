@@ -19,6 +19,7 @@ form.t.levels=c("Bowl", "Bowl Transition", "Mound", "Mound Transition", "Saddle"
 
 
 gu.fill = c('Bank' = '#000000', 
+            'Barface'="red", #this needs to be changed to match GIS coloring
             'Pool' = '#004DA8', 
             'Pond' = '#0070FF', 
             'Pocket Pool' = '#73B2FF', 
@@ -33,7 +34,7 @@ gu.fill = c('Bank' = '#000000',
             'Transition' = '#CCCCCC')
 
 gu.levels=c("Pocket Pool","Pool", "Pond", 
-         "Margin Attached Bar","Mid Channel Bar", "Riffle",
+         "Margin Attached Bar","Mid Channel Bar","Barface",  "Riffle",
          "Cascade", "Rapid", "Chute" ,
          "Glide-Run", "Transition", "Bank")
 

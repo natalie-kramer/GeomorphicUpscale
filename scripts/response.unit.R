@@ -25,22 +25,20 @@ plottype=plottype   #Options: .tiff, .png, .pdf, "none"
 myscales=myscales #Options: fixed or free x/y axis scales for tiled plot output
 species=species   #Options: steelhead, chinook, ""
 model=model    ##Options: nrei, fuzzy, ""
+lifestage=lifestage  ##Options: spawner, juvenile
 
 # set up data refs and output file structure----------------------------------------------------
 
 print("set up data refs and output file structure...")
 
-#sets lifestage based on specified model
-if(exists("lifestage")==F){lifestage="unspecified"}
+#make lifestage match model type    
+if(model=="nrei"& lifestage!="juvenile"){lifestage="juvenile"
+print("lifestage changed to juvenile for nrei results")}
 
-#make lifestage match model type if it doesn't    
-if(model=="nrei" & lifestage!="juvenile"){lifestage="juvenile"
-print("lifestage set to juvenile to match specified model")}
+#if(model=="fuzzy"){lifestage="spawner"
+#print("lifestage set to spawner to match specified model")}
 
-if(model=="hsi" & lifestage!="spawner"){lifestage="spawner"
-print("lifestage set to spawner to match specified model")}
-
-basesubdir=c("Outputs","response",  species, model, "by.unit", gu.type)
+basesubdir=c("Outputs","response",  species, model, lifestage, "by.unit", gu.type)
 create.subdirs(PROJdir, basesubdir)
 
 #set OUTdir
@@ -53,7 +51,7 @@ unlink(paste(OUTdir,"\\*", sep=""), recursive=T)
 GUTdir=paste(GUPdir,"\\Database\\Metrics" , sep="")
 
 #specify GUT output layer to draw data from based on gu.type
-if(gu.type=="GU"){layer="Tier3_InChannel"}
+if(gu.type=="GU"){layer="Tier3_InChannel_GU"}
 if(gu.type=="UnitForm" | gu.type=="UnitShape"){layer="Tier2_InChannel_Transition" }
 
 #May need to change this in the future? depended on file naming conventions.  
@@ -71,26 +69,31 @@ unitfishmetrics=read.csv(paste(GUTdir,GUToutputlist[grep(paste("Unit_Fish", sep=
 #makes layer with just site level resonse for model, species and lifestage specified. 
 myvars=c(model, species, lifestage)
 unitfish=unitfishmetrics%>%filter(model==myvars[1] & species==myvars[2] & lifestage==myvars[3])
+if(length(unitfish[,1])==0){print("no results for specified species, model and lifestage, cannot run summaries")}
 
 
 #Read in Unit Data and combines to add unit type as field
+#I don't need this section now that the summary isn't by UnitID...
+
 #unitmetrics=read.csv(paste(GUTdir,GUToutputlist[grep("unit", GUToutputlist)],sep="\\"),stringsAsFactors=F)
 
 #read in unit type
-unittypes=read.csv(paste(GUTdir,GUToutputlist[grep("AllVisits", GUToutputlist)],sep="\\"),stringsAsFactors=F)%>%
-  rename(visit.id=VisitID)
-unittypes=unittypes[,c(which(names(unittypes)==gu.type), which(names(unittypes)=="visit.id"), which(names(unittypes)=="UnitID"))]
+#unittypes=read.csv(paste(GUTdir,GUToutputlist[grep("AllVisits", GUToutputlist)],sep="\\"),stringsAsFactors=F)%>%
+#  rename(visit.id=VisitID)
+#unittypes=unittypes[,c(which(names(unittypes)==gu.type), which(names(unittypes)=="visit.id", "Unit_ID"), which(names(unittypes)=="UnitID"))]
+#unitfish=unittypes%>%full_join(unitfish, by=c("visit.id"))
+
 
 #finds which column matches gu.type abd rename column to Unit
-unitfish1=unittypes%>%full_join(unitfish, by=c("visit.id", "UnitID"))%>%rename(unit.type=gu.type)
+unitfish1=unitfish%>%rename(unit.type=gu.type)
 
 #gathersdata and add ROI and variable fields so table is cleaner and easier to select from
-unitfish.gather=gather(unitfish1, key="variable_old", value="value", area.delft:sd.best)
+unitfish.gather=gather(unitfish1, key="variable_old", value="value", area.delft:sd.suitable)
 unitfish.gather$ROI=NA
 unitfish.gather$variable=NA
 unitfish.gather$ROI[grep("delft", unitfish.gather$variable_old)]="hydro"
 unitfish.gather$ROI[grep("suitable", unitfish.gather$variable_old)]="suitable"
-unitfish.gather$ROI[grep("best", unitfish.gather$variable_old)]="best"
+#unitfish.gather$ROI[grep("best", unitfish.gather$variable_old)]="best"
 unitfish.gather$ROI[which(is.na(unitfish.gather$ROI))]="hydro"
 unitfish.gather$variable[grep("pred.fish", unitfish.gather$variable_old)]="pred.fish"
 unitfish.gather$variable[grep("area", unitfish.gather$variable_old)]="area"
@@ -102,18 +105,24 @@ unitfish.gather$variable[grep("sd", unitfish.gather$variable_old)]="sdModelVal"
 #join selections to unitfish to add RS and condition variables to response.
 response=selections%>%select(visit.id, RS, Condition, RScond)%>%full_join(unitfish.gather, by="visit.id")
 #removes NA rows for RS from joined responses. Not sure why they were added?, something to do with the full join.
-response=response%>%filter(!is.na(unit.type))%>%filter(!is.na(RS))%>%filter(!is.na(variable))
+response.unitid=response%>%filter(!is.na(unit.type))%>%filter(!is.na(RS))%>%filter(!is.na(variable))
+
+
+#do summary bf.density by u because handy in upscale to get standard deviation of density... but kind of a weird number conceptually 
+#response.bf.density=response.unitid%>%filter(variable=="area" | variable=="pred.fish")%>%
+#  group_by(visit.id, RS, Condition, unit.type, model, species, lifestage, variable_old, ROI, variable)%>%
+#  summarize(value=sum(value, na.rm=T))
 
 
 # Summarizes data for use in Upscale ----------------------------------------------------
 
 print("Making and plotting stat summaries of responses...")
 print("for RScond...")
-byRScond=make.outputs.unit(indata=response, poolby="RScond", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
+byRScond=make.outputs.unit(indata=response.unitid, poolby="RScond", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
 print("for RS...")
-byRS=make.outputs.unit(indata=response, poolby="RS", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
+byRS=make.outputs.unit(indata=response.unitid, poolby="RS", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
 print("for All...")
-byall=make.outputs.unit(indata=response, poolby="", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
+byall=make.outputs.unit(indata=response.unitid, poolby="", gu.type=gu.type, plottype=plottype, OUTdir=OUTdir, RSlevels=RSlevels)
 
 
 # cleaning up ----------------------------------------------
@@ -122,7 +131,7 @@ print("erasing temporary variables")
 
 
 keepvars=c("selections", "PROJdir","GUPdir", "plottype", "myscales" , "RSlevels", "gu.type", 
-           "species", "model")
+           "species", "model", "lifestage")
 
 rm(list=ls()[-match(x = keepvars, table = ls())])
 
