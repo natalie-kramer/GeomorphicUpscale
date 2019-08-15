@@ -2,8 +2,13 @@
 #that match geomorphically to specified geomorphic indicator characteristics. 
 
 #Natalie Kramer (n.kramer.anderson@gmail.com)
-#Last Updated June 3, 2019
+#Last Updated Aug 14, 2019
 
+
+
+# To do -------------------------------------------------------------------
+
+#Update database_reachcharacteristics to include Karen's sites'
 
 ###########################################################
 #Dependencies
@@ -14,11 +19,14 @@ library(dplyr)
 #Define User File Path Directories and Create Projec Directory
 ###########################################################
 
-#User defined project directories Loation
-PROJdir="E:\\AsotinUpscale"
+#User defined project directories Location
+PROJdir="E:\\GitHub\\GeomorphicUpscale\\AsotinExample"
 
 #Specify directory path to the downloaded Git Repo
 GUPdir="E:\\GitHub\\GeomorphicUpscale"
+
+
+#read in data--------------------
 
 
 ###########################################################
@@ -27,6 +35,8 @@ GUPdir="E:\\GitHub\\GeomorphicUpscale"
 #reads in database of reach variables.
 data1=read.csv(paste(GUPdir, "Database\\Database_reachcharacteristics.csv", sep="\\"))
 head(data1) #preview the top of teh database.
+
+#Make selections--------------------
 
 
 ###########################################################
@@ -310,8 +320,9 @@ length(CVgood[,1]) #10
 
 
 
-#Combining a visit list --------------------
 
+
+#Combining a visit list --------------------
 
 
 ###########################################################
@@ -337,33 +348,5 @@ if(file.exists(INdir)==F)(dir.create(INdir))
 write.csv(selections, paste(INdir, "\\", selectionfilename, ".csv",  sep=""), row.names=F) 
 
 
-###########################################################
-###Create Outputs for Review Summaries of Geoindicators based on Selections
-###########################################################
 
-#User defined project directories Loation
-PROJdir="E:\\AsotinUpscale"
-
-#Specify directory path to the downloaded Git Repo
-GUPdir="E:\\GitHub\\GeomorphicUpscale"
-
-##read in selections generated from RSselection.R
-#set directory where selections .csv is housed
-INdir=paste(PROJdir, "Inputs", sep="\\")
-selectionfilename="selections"
-selections=read.csv(paste(INdir, "\\", selectionfilename, ".csv",  sep=""))
-
-#soruce the geoindicator summary script
-source(paste(GUPdir, "\\scripts\\geoindicators.R", sep=""))
-
-###Copy Maps corresponding to selections for review
-
-##specify variables used in script to specify subdirectories
-gu.type="GU"      #Options: UnitForm, GU #UnitShape not available at this time since I don't have maps of these in the database
-RScolname="RScond"      #Options: RS, #or whatever it is named...
-
-#soruce the geomorphic MapsbyRSselection from where it is locally saved.
-source(paste(GUPdir, "\\scripts\\MapsbyRSselection.R", sep=""))
-       
-       
        

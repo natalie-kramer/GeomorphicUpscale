@@ -72,12 +72,12 @@ network.file="E://AsotinUpscale//Inputs//network.csv"
 #Builds the project directory structure and re-organizes inputs
 source(paste(GUPdir, "\\scripts\\projbuild.R", sep=""))
 
-responsepool="RScond" 
-segIDcol="segmentID"
-lengthcol="length.m"
-widthcol="bf.width.m"
-condcols=c("Condition0","Condition1", "Condition2", "Condition3")
-areacols=NA #leave as NA if no area is specified per reach segment and it will be estimated
+responsepool="byRScond" #Options: "byRScond", "byRS", "byAll"
+segIDcol="segmentID" #user supplied
+lengthcol="length.m" #user supplied
+widthcol="bf.width.m" #user supplied.
+condcols=c("Condition0","Condition1", "Condition2", "Condition3") #user supplied
+areacols=NA #user supplied. leave as NA if no area is specified per reach segment and it will be estimated
 
 #source and run code to generate output for upscaling response variabales
 source(paste(GUPdir, "\\scripts\\upscale.response.R", sep=""))
